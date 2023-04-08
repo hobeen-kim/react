@@ -1,0 +1,66 @@
+.input-box {
+    width: 50px;
+    border-radius: 5px;
+  }
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container button {
+  margin: 5px;
+}
+
+.selected {
+  background-color: yellow;
+  color: black;
+}
+
+.dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: red;
+}
+
+.selected-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: green;
+}
+
+.canvas{
+  border: 1px solid black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1300px;
+  height: 860px;
+}
+
+.parent {
+  position: relative; /* 부모 요소의 위치 지정 */
+  width: 1300px;
+  height: 860px;
+}
+
+.fade-in-left {
+  animation: fadeInLeft 0.5s ease-in-out forwards;
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,55 @@
+body {
+  display: flex;
+  flex-direction: column;
+    background: url(../image/backGround.jpg) no-repeat center center fixed;
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+     background-size: cover;
+
+  }
+
+  .logo-container {
+    position: absolute;
+    top: 150px;
+    left: calc(50% - 120px);
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    animation: fadeIn 2s ease-in-out forwards;
+    transition: all 2s ease-in-out;
+    z-index: 11;
+
+  } 
+
+  .logo-container-loggined  {
+    position: fixed;
+    top: 150px;
+    left: calc(50% - 120px);
+    transform: translate(-50%, -50%);
+    animation: logoMove 3s forwards;
+    z-index: 11;
+
+  } 
+
+ .logo-container-fixed {
+    position: fixed;
+    top: 1px;
+    left: 30px;
+    z-index: 11;
+
+  }
+
+  @keyframes logoMove {
+    0% {
+      top: 150px;
+      left: calc(50% - 120px);
+    }
+    50% {
+      top: 1px;
+    }
+    100% {
+      top: 50px;
+      left: 150px;
+    }
+  }

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+
+.detail-thead{
+    background-color: rgba(190, 183, 183, 0.7);
+    border: 3px solid #ffffff;
+}
+
+.detail-tbody{
+    font-weight: 700; /* 굵은 폰트 (숫자값으로도 지정 가능) */
+    border: 3px solid #ffffff;
+
+}
+
+.detail-sub{
+    background-color: rgba(190, 183, 183, 0.7);
+}
+
+.detail-defence{
+    background-color: rgba(175, 209, 168, 0.6);
+}
+
+.detail-attack{
+    background-color: rgba(146, 161, 211, 0.65)
+}
+
+.detail-midfield{
+    background-color: rgba(224, 165, 165, 0.5);
+}
+
+.detail-content{
+    font-family: 'Noto Sans KR', sans-serif;
+    color: rgb(0, 0, 0);
+    margin: 10px;
+}
+
+.hitmap-img{
+    width : 36px;
+    height : 36px;
+    margin-left : 10px;
+
+}
+
+.hitmap-input {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin-top : 10px;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: rgb(0, 0, 0);
+}
+
+.hitmap-toolTip{
+    position: "absolute";
+    width: "100px";
+    height: "100px";
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: rgba(238, 237, 199,0.7);
+    border: 3px solid black;
+    padding-right : 10px;
+    padding-left : 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    z-index: 3;
+}

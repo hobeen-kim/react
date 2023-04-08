@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+.title{
+    font-family: 'Roboto', sans-serif;
+    font-size: 50px;
+    color: rgb(136, 99, 195);
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+.content-title{
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    color: rgb(136, 99, 195);
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.content{
+    font-family: 'Noto Sans KR', sans-serif;
+    color: rgb(0, 0, 0);
+    width: 75px;
+
+}
+
+.logginedPage-background{
+    flex: 1;
+    width: 100%;
+    height: 1500px;
+    background: rgba(255, 255, 255, 0.6) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-left: 50px;
+    padding-top : 30px;
+
+}
+
+.table{
+    width : auto;
+    text-align: center;
+
+}
+
+.btn{
+    background-color: #3d4183;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #3d4183;
+    color: white;
+}
+
+td, th {
+    width: 100px;
+    white-space: nowrap;
+    vertical-align: middle;
+
+  }
+
+.input-box {
+    width: 83px;
+    height:40px;
+    white-space: nowrap;
+    border-radius: 10px;
+  }
+
+.input-box-wide {
+    width: 200px;
+    height:40px;
+    white-space: nowrap;
+    border-radius: 10px;
+  }
+
+  .react-datepicker__input-container > input {
+    width: 200px;
+    height:40px;
+    white-space: nowrap;
+    border-radius: 10px;  }
+
+
+.select-box {
+    width: 70px;
+    white-space: nowrap;
+  }
+
+.select-box-wide {
+width: 100px;
+white-space: nowrap;
+}
+
+
+.time-in{
+    color : green;
+}
+
+.time-out{
+    color : red;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.loggined-section{
+    padding-top : 200px;
+    font-size: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    height: 60lvh;
+}
+
+.loggined-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    animation: move 1.5s ease-in-out infinite;
+}
+
+.loggined-img{
+    width: 250px;
+    height: 250px;
+    margin-bottom: 50px;
+}
+
+@keyframes move {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+  }
+
+.loggined-sectionIn{
+    padding-top : 20px;
+    font-size: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    height: 12lvh;
+}
+.img-gif{
+    background-color: white;
+    padding: 50px;
+    border-radius: 10%;
+}
+
+.loggined-content{
+    font-size: 20px;
+    padding : 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+}
+
+.loggined-button{
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    background-color: #4e5291;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 50px;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 10px;
+}
+
+.pointer-img{
+
+    position: relative;
+    animation: imageMove 2s infinite; /* move 애니메이션을 2초간 반복합니다. */
+
+}
+
+
+.pointer-img-reverse{
+
+    position: relative;
+    transform: scaleX(-1);
+    animation: imageMoveReverse 2s infinite; /* move 애니메이션을 2초간 반복합니다. */
+
+}
+
+@keyframes imageMove {
+    0% {
+      left: 0; /* 0% 부터 왼쪽 끝에 위치하도록 합니다. */
+    }
+    50% {
+      left: 15px; /* 50% 부터 중앙으로 이동하도록 합니다. */
+    }
+    100% {
+      left: 0%; /* 100% 부터 오른쪽 끝에 위치하도록 합니다. */
+    }
+  }
+
+  @keyframes imageMoveReverse {
+    0% {
+      left: 15px; /* 0% 부터 왼쪽 끝에 위치하도록 합니다. */
+    }
+    50% {
+      left: 0px; /* 50% 부터 중앙으로 이동하도록 합니다. */
+    }
+    100% {
+      left: 15px;; /* 100% 부터 오른쪽 끝에 위치하도록 합니다. */
+    }
+  }
+
+  .loggined-flex-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
