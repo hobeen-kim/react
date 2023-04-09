@@ -1,1 +1,1 @@
-export const URI = "http://43.201.171.36:80";
+export const URI = "https://load.socceranalyst.net";

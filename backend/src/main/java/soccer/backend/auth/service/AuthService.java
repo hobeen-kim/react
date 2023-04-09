@@ -8,11 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import soccer.backend.auth.dto.MemberRequestDto;
 import soccer.backend.auth.dto.MemberResponseDto;
 import soccer.backend.auth.dto.TokenDto;
 import soccer.backend.auth.jwt.TokenProvider;
 import soccer.backend.domain.member.Member;
+import soccer.backend.dto.MessageDto;
 import soccer.backend.repository.MemberRepository;
 
 @Service
@@ -44,6 +46,11 @@ public class AuthService {
         log.info("tokenDto: {}", tokenDto);
 
         return tokenDto;
+    }
+
+    @GetMapping("/test")
+    public MessageDto test() {
+        return new MessageDto("test 메세지입니다.");
     }
 
 }

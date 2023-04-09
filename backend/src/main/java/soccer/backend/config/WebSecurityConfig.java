@@ -66,10 +66,11 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:3000"); // 로컬
-        config.addAllowedOrigin("http://www.socceranalyst.net"); // 프론트 IPv4 주소
         config.addAllowedOrigin("http://socceranalyst.net"); // 프론트 IPv4 주소
-        config.addAllowedOrigin("http://dkve1bpa1sk8n.cloudfront.net"); // 프론트 IPv4 주소
+        config.addAllowedOrigin("https://socceranalyst.net"); // 프론트 IPv4 주소
         config.addAllowedOrigin("http://socceranalyst.s3-website.ap-northeast-2.amazonaws.com/"); // 프론트 IPv4 주소
+        config.addAllowedOrigin("https://socceranalyst.s3-website.ap-northeast-2.amazonaws.com/"); // 프론트 IPv4 주소
+
         config.addAllowedMethod("*"); // 모든 메소드 허용.
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
