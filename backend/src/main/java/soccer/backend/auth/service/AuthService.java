@@ -2,9 +2,12 @@ package soccer.backend.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByMemberId(requestDto.getMemberId())) {
@@ -36,17 +40,27 @@ public class AuthService {
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
-    public TokenDto login(MemberRequestDto requestDto) {
-        UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+        public TokenDto login(MemberRequestDto requestDto) {
+            UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+            TokenDto tokenDto = null;
 
-        Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+            // 비밀번호 일치 여부 확인
+            try{
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(requestDto.getMemberId());
+                if (!passwordEncoder.matches(requestDto.getPassword(), userDetails.getPassword())) {
+                    throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+                }
+                Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+                tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
- 
-        log.info("tokenDto: {}", tokenDto);
+            }catch (UsernameNotFoundException e) {
+                throw new UsernameNotFoundException(e.getMessage());
+            }
 
-        return tokenDto;
-    }
+            log.info("tokenDto: {}", tokenDto);
+
+            return tokenDto;
+        }
 
     @GetMapping("/test")
     public MessageDto test() {

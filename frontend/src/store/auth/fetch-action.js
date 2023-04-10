@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { URI } from '../../utility/uri';
+import { TestURI } from '../../utility/uri';
 
-const uri = URI;
+const uri = TestURI;
 
 const fetchAuth = async (fetchData) => {
   const method = fetchData.method;

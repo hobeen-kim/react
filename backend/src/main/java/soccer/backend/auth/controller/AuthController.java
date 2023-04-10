@@ -36,13 +36,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody MemberRequestDto requestDto) {
-        try{
-            TokenDto token = authService.login(requestDto);
-            return ResponseEntity.ok(token);
-        }catch(RuntimeException e){
-            String errorMessage = "로그인 정보를 다시 확인해주세요.";
-            return ResponseEntity.badRequest().body(errorMessage);
-        }
+    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
+        TokenDto token = authService.login(requestDto);
+        return ResponseEntity.ok(token);
     }
 }
