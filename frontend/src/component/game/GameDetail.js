@@ -355,7 +355,7 @@ useEffect(() => {
     <option key={position} value={position}>{position}</option>
   ))}
   </Form.Select>
-  <Form.Select className='select-box-wide' id='mainSub' ref={AddMainSubInputRef}>
+  <Form.Select className='select-box-wide' id='mainSub' defaultValue='MAIN' ref={AddMainSubInputRef}>
     <option key='main' value='MAIN'>선발</option>
     <option key='sub' value='SUB'>교체</option>
   </Form.Select>

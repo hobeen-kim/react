@@ -115,10 +115,10 @@ export const GameContextProvider = ({ children }) => {
         }
     }
 
-    const addPlayer = async (gameId, playerId, gamePosition) => {
+    const addPlayer = async (gameId, playerId, gamePosition, main) => {
         setError(null);
         try {
-            await addPlayerActionHandler(token, gameId, playerId, gamePosition);
+            await addPlayerActionHandler(token, gameId, playerId, gamePosition, main);
         } catch (error) {
             setError(error.message || 'Something went wrong!');
         }

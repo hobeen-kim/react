@@ -81,11 +81,9 @@ public class PlayerService{
         if(isPlayer(player)){
             player.setName(playerRequestDto.getName());
             player.setPosition(playerRequestDto.getPosition());
-            log.info("선수 수정 완료");
             return new MessageDto(player.getName() + " 선수 수정 완료");
         } else {
-            log.info("선수 수정 권한이 없습니다.");
-            return new MessageDto("선수 수정 권한이 없습니다.");
+            throw new RuntimeException("선수 수정 권한이 없습니다.");
         }
 
     }
@@ -98,8 +96,7 @@ public class PlayerService{
         String name = player.getName();
 
         if(!isPlayer(player)){
-            log.info("선수 삭제 권한이 없습니다.");
-            return new MessageDto("선수 삭제 권한이 없습니다.");
+            throw new RuntimeException("선수 삭제 권한이 없습니다.");
         }
         // game_player 테이블에서 player_id를 참조하는 레코드를 모두 삭제
         List<GamePlayer> gamePlayers = gamePlayerRepository.findAllByPlayerId(id);
@@ -113,7 +110,15 @@ public class PlayerService{
 
     //플레이어 1명 조회
     public Player player(Long id) {
-        return playerRepository.findById(id).orElseThrow();
+
+
+        Player player = playerRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("선수가 존재하지 않습니다."));
+
+        if(!isPlayer(player)){
+            throw new RuntimeException("선수 조회 권한이 없습니다.");
+        }
+        return player;
     }
 
     //인증 정보로 회원 조회

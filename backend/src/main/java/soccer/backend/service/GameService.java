@@ -3,6 +3,7 @@ package soccer.backend.service;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -187,7 +188,7 @@ public class GameService {
                 Record record = new Record(game, player, request.getGamePosition(), request.getMain());
                 recordRepository.save(record);
                 return GameListResponseDto.of(game, players, gamePlayer(game));
-            }catch (Exception e) {
+            }catch (IncorrectResultSizeDataAccessException e) {
                 throw new RuntimeException("이미 해당 경기에 참가한 선수입니다.");
             }
         }
@@ -242,6 +243,7 @@ public class GameService {
     }
 
     //게임 내 DotRecord 가 있는 gameField 를 조회
+    //현재 사용하지 않는 중
     public GameFieldResponseDto getGameField(Long gameId) {
 
         Member member = getMember();

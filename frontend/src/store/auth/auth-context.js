@@ -112,6 +112,7 @@ export const AuthContextProvider = (props) => {
     data.then((result) => {
       if (result !== null) {
         setIsSuccess(true);
+        window.alert("비밀번호가 변경되었습니다. 다시 로그인해주세요.");
         logoutHandler();
       }
     });
@@ -121,7 +122,7 @@ export const AuthContextProvider = (props) => {
     setCssState(2);
   }
 
-  // 시간에 따른 자동 로그아웃은 잠깐 삭제
+  // 시간에 따른 자동 로그아웃
   useEffect(() => {
     if(tokenData) {
       logoutTimer = setTimeout(logoutHandler, tokenData.duration);

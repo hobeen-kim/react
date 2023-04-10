@@ -47,9 +47,9 @@ export const deleteGameActionHandler = (token, gameId) => {
     return response;
 }
 
-export const addPlayerActionHandler = (token, gameId, playerId, gamePosition) => {
+export const addPlayerActionHandler = (token, gameId, playerId, gamePosition, main) => {
     const URL = '/game/addPlayer?id=' + gameId;
-    const gameObject = {"playerId":playerId, "gamePosition":gamePosition};
+    const gameObject = {"playerId":playerId, "gamePosition":gamePosition, "main":main};
     const response = POST(URL, gameObject, createTokenHeader(token));
     return response;
 }

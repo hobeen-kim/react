@@ -54,16 +54,10 @@ public class GameController {
     }
 
     @PostMapping("/addPlayer")
-    public ResponseEntity<?> addPlayer(
+    public ResponseEntity<GameListResponseDto> addPlayer(
             @RequestBody GamePlayerAddRequestDto request,
             @RequestParam("id") Long gameId) {
-        try{
-            GameListResponseDto gameListResponseDto = gameService.addPlayer(gameId, request);
-            return ResponseEntity.ok(gameService.addPlayer(gameId, request));
-        }catch(RuntimeException e){
-            String errorMessage = e.getMessage();
-            return ResponseEntity.badRequest().body(errorMessage);
-        }
+        return ResponseEntity.ok(gameService.addPlayer(gameId, request));
     }
 
     @PutMapping("/updatePlayer")
