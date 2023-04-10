@@ -10,18 +10,6 @@
 
 # React
 
-프론트엔드 JavaScript 라이브러리 React 템플릿입니다.
+SoccerAnalyst 개인 토이프로젝트입니다.
 
 
-## 💬 문제해결
-
-- [클라우드타입 Docs](https://docs.cloudtype.io/)
-
-- [클라우드타입 FAQ](https://help.cloudtype.io/guide/faq)
-
-- [Discord](https://discord.gg/U7HX4BA6hu)
-
-
-## 📄 License
-
-[MIT](https://github.com/facebook/react/blob/main/LICENSE)
