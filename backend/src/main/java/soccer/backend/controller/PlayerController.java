@@ -1,6 +1,7 @@
 package soccer.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +29,13 @@ public class PlayerController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PlayerResponseDto> createPlayer(@RequestBody PlayerRequestDto playerRequestDto)  {
+    public ResponseEntity<PlayerResponseDto> createPlayer(@RequestBody @Valid PlayerRequestDto playerRequestDto)  {
 
         return ResponseEntity.ok(playerService.createPlayer(playerRequestDto));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<MessageDto> updatePlayer(@RequestBody PlayerRequestDto playerRequestDto)  {
+    public ResponseEntity<MessageDto> updatePlayer(@RequestBody @Valid PlayerRequestDto playerRequestDto)  {
 
         return ResponseEntity.ok(playerService.updatePlayer(playerRequestDto));
     }

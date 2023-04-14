@@ -1,5 +1,6 @@
 package soccer.backend.auth.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class MemberController {
     }
 
     @PostMapping("/nickname")
-    public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody MemberRequestDto request) {
+    public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody @Valid MemberRequestDto request) {
         log.info("request.getMemberId()={}, request.getNickname={}", request.getMemberId(), request.getNickname());
         return ResponseEntity.ok(memberService.changeMemberNickname(request.getMemberId(), request.getNickname()));
     }
 
     @PostMapping("/password")
-    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
+    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody  @Valid ChangePasswordRequestDto request) {
         return ResponseEntity.ok(memberService.changeMemberPassword(request.getMemberId(), request.getExPassword(), request.getNewPassword()));
     }
 

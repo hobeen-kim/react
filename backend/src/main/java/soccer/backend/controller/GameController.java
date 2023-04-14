@@ -1,8 +1,10 @@
 package soccer.backend.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import soccer.backend.dto.MessageDto;
 import soccer.backend.dto.game.*;
@@ -38,13 +40,13 @@ public class GameController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<GameListResponseDto> gameCreate(@RequestBody GameCreateRequestDto request) {
+    public ResponseEntity<GameListResponseDto> gameCreate(@RequestBody  @Valid GameCreateRequestDto request) {
         GameListResponseDto gameListResponseDto = gameService.gameCreate(request);
         return ResponseEntity.ok(gameListResponseDto);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<GameListResponseDto> gameUpdate(@RequestBody GameUpdateRequestDto request) {
+    public ResponseEntity<GameListResponseDto> gameUpdate(@RequestBody @Valid GameUpdateRequestDto request) {
         return ResponseEntity.ok(gameService.gameUpdate(request));
     }
 
@@ -55,14 +57,14 @@ public class GameController {
 
     @PostMapping("/addPlayer")
     public ResponseEntity<GameListResponseDto> addPlayer(
-            @RequestBody GamePlayerAddRequestDto request,
+            @RequestBody @Valid GamePlayerAddRequestDto request,
             @RequestParam("id") Long gameId) {
         return ResponseEntity.ok(gameService.addPlayer(gameId, request));
     }
 
     @PutMapping("/updatePlayer")
     public ResponseEntity<RecordResponseDto> updatePlayer(
-            @RequestBody RecordRequestDto request,
+            @RequestBody @Valid RecordRequestDto request,
             @RequestParam("id") Long gameId) {
         return ResponseEntity.ok(gameService.updatePlayer(gameId, request));
     }
@@ -80,7 +82,7 @@ public class GameController {
     }
 
     @PostMapping("/createGameField")
-    public ResponseEntity<GameFieldResponseDto> createGameField(@RequestBody GameFieldRequestDto request) {
+    public ResponseEntity<GameFieldResponseDto> createGameField(@RequestBody @Valid GameFieldRequestDto request) {
         return ResponseEntity.ok(gameService.createGameField(request));
     }
 }

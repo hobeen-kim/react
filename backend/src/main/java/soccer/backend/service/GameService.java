@@ -292,6 +292,9 @@ public class GameService {
             dotRecord.setPlayerId(request.getPlayerId());
             dotRecord.setPlayerName(request.getPlayerName());
             dotRecord.setGamePosition(request.getGamePosition());
+            dotRecord.setPlayerId(request.getPlayerId());
+            dotRecord.setPlayerName(request.getPlayerName());
+            dotRecord.setGamePosition(request.getGamePosition());
             dotRecord.setX(request.getX());
             dotRecord.setY(request.getY());
             dotRecord.setShoot(request.isShoot());
@@ -299,6 +302,7 @@ public class GameService {
             dotRecord.setShootX(request.getShootX());
             dotRecord.setShootY(request.getShootY());
             dotRecord.setGameTime(request.getGameTime());
+            dotRecords.add(dotRecord);
             dotRecordRepository.save(dotRecord);
         }
         return dotRecords;
