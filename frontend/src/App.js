@@ -87,9 +87,9 @@ function App() {
   return(
     <>
     <Link to="/">
-    <div class={authCtx.isLoggedIn? "logo-container-fixed" : "logo-container"}>
-      <img src={logo} class="logo-img" alt="logo" />
-      <img src={logoText} class="logo-text" alt="logoText" />
+    <div className={authCtx.isLoggedIn? "logo-container-fixed" : "logo-container"}>
+      <img src={logo} className="logo-img" alt="logo" />
+      <img src={logoText} className="logo-text" alt="logoText" />
     </div>
   </Link>
 <Layout>

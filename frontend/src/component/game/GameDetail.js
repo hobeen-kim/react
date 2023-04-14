@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LoadingSpinner from '../../UI/LoadingSpinner';
 import { Table, Button, Form } from 'react-bootstrap';
 import classes from '../../public/css/common.module.css';
+import { Validation } from '../../store/validation/validation';
 
 const GameDetail = () => {
 
@@ -13,6 +14,7 @@ const GameDetail = () => {
   const location = useLocation();
   const id = location.state?.id;
   const gameCtx = useContext(GameContext);
+  const validation = useContext(Validation);
   const navigate = useNavigate();
   const [selectedGame, setGame] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,6 +71,12 @@ const [timeOutChecked, setTimeOutChecked] = useState(false);
   const turnoverInputRef = useRef(null);
   const timeInInputRef = useRef(null);
   const timeOutInputRef = useRef(null);
+  //경기 수정 중 오류 메세지
+  const [gameNameError, setGameNameError] = useState('');
+  const [opponentError, setOpponentError] = useState('');
+  const [locationError, setLocationError] = useState('');
+  const [GFError, setGFError] = useState('');
+  const [GAError, setGAError] = useState('');
 
 //<----ㅣ----ㅣ----ㅣ----최초 게임 렌더링을 위한 코드---ㅣ----ㅣ----ㅣ---->
 useEffect(() => {
@@ -103,7 +111,31 @@ useEffect(() => {
       const GFInput = parseInt(GFInputRef.current.value);
       const GAInput = parseInt(GAInputRef.current.value);
       const createdAtInput = createdAt;
-      handleUpdateGame(selectedGame.id, gameNameInput, opponentInput, locationInput, GFInput, GAInput, createdAtInput);
+
+      //gameName validation
+      const gameNameCheck = validation.nameValidator(gameNameInput, 1, 100);
+      setGameNameError(gameNameCheck);
+      console.log(gameNameCheck)
+
+      //opponent validation
+      const opponentCheck = validation.nameValidator(opponentInput, 0, 100);
+      setOpponentError(opponentCheck);
+
+      //location validation
+      const locationCheck = validation.nameValidator(locationInput, 0, 100);
+      setLocationError(locationCheck);
+
+      //GF validation
+      const GFCheck = validation.rangeValidator(GFInput, 0, 100);
+      setGFError(GFCheck);
+
+      //GA validation
+      const GACheck = validation.rangeValidator(GAInput, 0, 100);
+      setGAError(GACheck);
+
+      if(!gameNameCheck && !opponentCheck && !locationCheck && !GFCheck && !GACheck) {
+        handleUpdateGame(selectedGame.id, gameNameInput, opponentInput, locationInput, GFInput, GAInput, createdAtInput);
+      }
     }
   }
   //Game 의 내용을 삭제하는 함수
@@ -223,10 +255,15 @@ useEffect(() => {
   {/**<----경기의 수정, 삭제, 취소 등 버튼 끝*/}
   {/**경기의 상세정보 수정 시작---->*/}
       <p><span class='content'>경기명  : </span><input class='input-box-wide' type="text" defaultValue={selectedGame.gameName} required ref={GameNameInputRef}/></p>
+      <div className='error'>{gameNameError}</div>
       <p><span class='content' style={{marginRight:'15px'}}> 위치 : </span><input class='input-box-wide' type="text" defaultValue={selectedGame.location} required ref={LocationInputRef}/></p>
+      <div className='error'>{locationError}</div>
       <p><span class='content' style={{marginRight:'15px'}}>상대  : </span><input class='input-box-wide' type="text" defaultValue={selectedGame.opponent} required ref={OpponentInputRef}/></p>
+      <div className='error'>{opponentError}</div>
       <p><span class='content' style={{marginRight:'15px'}}>득점  : </span><input class='input-box-wide' type="text" defaultValue={selectedGame.gf} required ref={GFInputRef}/></p>
+      <div className='error'>{GFError}</div>
       <p><span class='content' style={{marginRight:'15px'}}>실점  : </span><input class='input-box-wide' type="text" defaultValue={selectedGame.ga} required ref={GAInputRef}/></p>
+      <div className='error'>{GAError}</div>
       <p class='flex-container'><span class='content' style={{marginRight:'-15px'}}>날짜  : </span><DatePicker 
             selected={createdAt}
             onChange={(date) => setCreatedAt(date)} 

@@ -5,15 +5,23 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import LoadingSpinner from '../../UI/LoadingSpinner';
 import { Button, Table, Form } from 'react-bootstrap';
+import { Validation } from '../../store/validation/validation';
 
 
 const CreateGame = () => {
 
     const gameCtx = useContext(GameContext);
+    const validation = useContext(Validation);
     const [createInit, setCreateInit] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const positions = gameCtx.positions;
+    const [gameNameError, setGameNameError] = useState('');
+    const [opponentError, setOpponentError] = useState('');
+    const [locationError, setLocationError] = useState('');
+    const [GFError, setGFError] = useState('');
+    const [GAError, setGAError] = useState('');
+
 
     useEffect(() => {
         const fetchCreateInit = async () => {
@@ -65,17 +73,39 @@ const CreateGame = () => {
 
 
     const CreateGameHandler = async (ReqPlayers) => {
-        setIsLoading(true);
         const gameNameInput = GameNameInputRef.current.value;
         const opponentInput = OpponentInputRef.current.value;
         const locationInput = LocationInputRef.current.value;
         const GFInput = GFInputRef.current.value;
         const GAInput = GAInputRef.current.value;
         const createdAtInput = createdAt;
+
+        //gameName validation
+        const gameNameCheck = validation.nameValidator(gameNameInput, 1, 100);
+        setGameNameError(gameNameCheck);
+
+        //opponent validation
+        const opponentCheck = validation.nameValidator(opponentInput, 0, 100);
+        setOpponentError(opponentCheck);
+
+        //location validation
+        const locationCheck = validation.nameValidator(locationInput, 0, 100);
+        setLocationError(locationCheck);
+
+        //GF validation
+        const GFCheck = validation.rangeValidator(GFInput, 0, 100);
+        setGFError(GFCheck);
+
+        //GA validation
+        const GACheck = validation.rangeValidator(GAInput, 0, 100);
+        setGAError(GACheck);
         
-        gameCtx.createGame(gameNameInput, opponentInput, locationInput, GFInput, GAInput, createdAtInput, ReqPlayers);
-        setIsLoading(false);   
-        navigate('/games');
+        if(!gameNameCheck && !opponentCheck && !locationCheck && !GFCheck && !GACheck) {
+          setIsLoading(true);
+          gameCtx.createGame(gameNameInput, opponentInput, locationInput, GFInput, GAInput, createdAtInput, ReqPlayers);
+          setIsLoading(false);   
+          navigate('/games');
+        }
     }
 
     return (
@@ -85,73 +115,78 @@ const CreateGame = () => {
     <Button onClick={()=>navigate('/games')}>뒤로 가기</Button>
     {isLoading && <LoadingSpinner asOverlay />}
     <p><span class='content'>경기명  : </span><input class='input-box-wide' type="text" required ref={GameNameInputRef}/></p>
-      <p><span class='content' style={{marginRight:'15px'}}>위치  : </span><input class='input-box-wide' type="text" required ref={LocationInputRef}/></p>
-      <p><span class='content' style={{marginRight:'15px'}}>상대  : </span><input class='input-box-wide' type="text" required ref={OpponentInputRef}/></p>
-      <p><span class='content' style={{marginRight:'15px'}}>득점  : </span><input class='input-box-wide' type="number" required ref={GFInputRef}/></p>
-      <p><span class='content' style={{marginRight:'15px'}}>실점  : </span><input class='input-box-wide' type="number" required ref={GAInputRef}/></p>
-      <p class='flex-container'><span class='content' style={{marginRight:'-15px'}}>날짜  : </span><DatePicker 
-            selected={createdAt}
-            onChange={(date) => setCreatedAt(date)} 
-            dateFormat="yyyy-MM-dd" 
-            required 
-            showYearDropdown 
-            scrollableYearDropdown
-            yearDropdownItemNumber={10}
-          />
-      </p>
-      <Table>
-        <thead>
-            <tr>
-                <th>경기 포지션</th>
-                {positions.map(position => (
-                <th key={position}>{position}</th>))}
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>주전 선수</td>
-                {positions.map((position, index) => (
-                <td key={position}>
-                    <Form.Select size="sm" style={{width:'90px'}}
-                    ref={positionRefs[index]} defaultValue="none" class='select-box-wide'>
-                    <option value="none">none</option>
-                    {createInit?.map((player) => (
-                    <option key={player.id} value={player.id}>{player.name}</option>
-                  ))}
-                </Form.Select>
-              </td>
-            ))}
-            </tr>
-            <tr>
-                <td>교체 선수</td>
-                {positions.map((position, index) => (
-                <td key={position}>
-                    <Form.Select size="sm" style={{width:'90px'}}
-                    ref={positionRefs[index+ positions.length]} defaultValue="none">
-                    <option value="none">none</option>
-                    {createInit?.map((player) => (
-                    <option key={player.id} value={player.id}>{player.name}</option>
-                  ))}
-                </Form.Select>
-              </td>
-            ))}
-            </tr>
-            <tr>
-                <td>교체 선수</td>
-                {positions.map((position, index) => (
-                <td key={position}>
-                    <Form.Select size="sm" style={{width:'90px'}}
-                    ref={positionRefs[index+ positions.length * 2]} defaultValue="none">
-                    <option value="none">none</option>
-                    {createInit?.map((player) => (
-                    <option key={player.id} value={player.id}>{player.name}</option>
-                  ))}
-                </Form.Select>
-              </td>
-            ))}
-            </tr>
-        </tbody>
-      </Table>
+    <div className='error'>{gameNameError}</div>
+    <p><span class='content' style={{marginRight:'15px'}}>위치  : </span><input class='input-box-wide' type="text" required ref={LocationInputRef}/></p>
+    <div className='error'>{locationError}</div>
+    <p><span class='content' style={{marginRight:'15px'}}>상대  : </span><input class='input-box-wide' type="text" required ref={OpponentInputRef}/></p>
+    <div className='error'>{opponentError}</div>
+    <p><span class='content' style={{marginRight:'15px'}}>득점  : </span><input class='input-box-wide' type="number" required ref={GFInputRef}/></p>
+    <div className='error'>{GFError}</div>
+    <p><span class='content' style={{marginRight:'15px'}}>실점  : </span><input class='input-box-wide' type="number" required ref={GAInputRef}/></p>
+    <div className='error'>{GAError}</div>
+    <p class='flex-container'><span class='content' style={{marginRight:'-15px'}}>날짜  : </span><DatePicker 
+          selected={createdAt}
+          onChange={(date) => setCreatedAt(date)} 
+          dateFormat="yyyy-MM-dd" 
+          required 
+          showYearDropdown 
+          scrollableYearDropdown
+          yearDropdownItemNumber={10}
+        />
+    </p>
+    <Table>
+      <thead>
+          <tr>
+              <th>경기 포지션</th>
+              {positions.map(position => (
+              <th key={position}>{position}</th>))}
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>주전 선수</td>
+              {positions.map((position, index) => (
+              <td key={position}>
+                  <Form.Select size="sm" style={{width:'90px'}}
+                  ref={positionRefs[index]} defaultValue="none" class='select-box-wide'>
+                  <option value="none">none</option>
+                  {createInit?.map((player) => (
+                  <option key={player.id} value={player.id}>{player.name}</option>
+                ))}
+              </Form.Select>
+            </td>
+          ))}
+          </tr>
+          <tr>
+              <td>교체 선수</td>
+              {positions.map((position, index) => (
+              <td key={position}>
+                  <Form.Select size="sm" style={{width:'90px'}}
+                  ref={positionRefs[index+ positions.length]} defaultValue="none">
+                  <option value="none">none</option>
+                  {createInit?.map((player) => (
+                  <option key={player.id} value={player.id}>{player.name}</option>
+                ))}
+              </Form.Select>
+            </td>
+          ))}
+          </tr>
+          <tr>
+              <td>교체 선수</td>
+              {positions.map((position, index) => (
+              <td key={position}>
+                  <Form.Select size="sm" style={{width:'90px'}}
+                  ref={positionRefs[index+ positions.length * 2]} defaultValue="none">
+                  <option value="none">none</option>
+                  {createInit?.map((player) => (
+                  <option key={player.id} value={player.id}>{player.name}</option>
+                ))}
+              </Form.Select>
+            </td>
+          ))}
+          </tr>
+      </tbody>
+    </Table>
     </div>
     
     )

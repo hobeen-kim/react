@@ -3,33 +3,50 @@ import LoadingSpinner from '../../UI/LoadingSpinner'
 import React, { useState, useRef, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { Validation } from '../../store/validation/validation';
 
 const CreatePlayer = ({ onCancel }) => {
 
+  const playerCtx = useContext(PlayerContext);
+  const validation = useContext(Validation);
   const PlayerNameInputRef = useRef(null);
   const PlayerPositionInputRef = useRef(null);
-  
   const [isLoading, setIsLoading] = useState(false);
-  const playerCtx = useContext(PlayerContext);
+  const [playerNameError, setPlayerNameError] = useState('');
+  
   const positions = playerCtx.positions;
 
-  const submitHandler = async () => {    
-    const enteredPlayerName = PlayerNameInputRef.current.value;
-    const enteredPlayerPosition = PlayerPositionInputRef.current.value;
-
+  const onhandlePost = async (playerName, playerPosition) => {
     setIsLoading(true);
-    playerCtx.createPlayer(enteredPlayerName, enteredPlayerPosition);
+    playerCtx.createPlayer(playerName, playerPosition);
     setIsLoading(false);
+    onCancel();
+  };
 
-    handleCancelClick();
+  const submitHandler = async (event) => {    
+    event.preventDefault();
+
+    const playerName = PlayerNameInputRef.current.value;
+    const playerPosition = PlayerPositionInputRef.current.value;
+
+
+    //플레이어 이름 유효성 체크
+    const playerNameCheck = validation.nameValidator(playerName, 1, 30);
+    setPlayerNameError(playerNameCheck);
+
+    if(!playerNameCheck) {
+      console.log("onhandlePost");
+      onhandlePost(playerName, playerPosition);
+    }
+
   }
+
 
   const handleCancelClick = () => {
     if (onCancel) {
       onCancel();
     }
 };
-
 
   return (
     <section>
@@ -39,6 +56,7 @@ const CreatePlayer = ({ onCancel }) => {
         <div>
           <label htmlFor='playerName' class='content'>선수 이름 : </label>
           <input class='input-box' type='text' id='playerName' style={{marginLeft:'15px', width:'150px'}} required ref={PlayerNameInputRef}/>
+          <div className='error'>{playerNameError}</div>
         </div>
         <div style={{display:"flex", marginTop : '20px'}}>
         <label htmlFor="position" class='content'>포지션 : </label>

@@ -24,32 +24,28 @@ const PlayerList = () => {
   useEffect(() => {
     const fetchPlayers = async () => {
       setIsLoading(true);
-      playerCtx.getPlayers();
+      await playerCtx.getPlayers();
       setPlayerList(playerCtx.players);
- 
       setIsLoading(false);
     };
     fetchPlayers();
-    const sorted = sortPlayers(playerList, positions);
-    setSortedPlayers(sorted);
   }, []);
 
-  // 추가된 useEffect
-  useEffect(() => {
-    setPlayerList(playerCtx.players);
-    const sorted = sortPlayers(playerList, positions);
-    setSortedPlayers(sorted);
-  }, [playerCtx.players, sortedPlayers]);
+  // playerList와 positions이 변경될 때마다 실행되도록 수정
+useEffect(() => {
+  setPlayerList(playerCtx.players);
+  const sorted = sortPlayers(playerCtx.players, positions);
+  setSortedPlayers(sorted);
+}, [playerCtx.players, positions]);
 
-  //플레이어를 position 별로 정렬하는 함수
-  function sortPlayers(playerList, positions) {
-    const sortedPlayers = [...playerList].sort((a, b) => {
-      const positionA = positions.indexOf(a.position);
-      const positionB = positions.indexOf(b.position);
-      return positionA - positionB;
-    });
-    return sortedPlayers;
-  }
+function sortPlayers(playerList, positions) {
+  const sortedPlayers = [...playerList].sort((a, b) => {
+    const positionA = positions.indexOf(a.position);
+    const positionB = positions.indexOf(b.position);
+    return positionA - positionB;
+  });
+  return sortedPlayers;
+}
 
   //플레이어 정보를 수정하는 함수
   const handleUpdatePlayer = async (playerId, name, position) => {
@@ -120,7 +116,7 @@ const HandleEditClick = (playerId) => {
 
   return (
     <div>
-    <h2 class='title'>Player List</h2>
+    <h2 className='title'>Player List</h2>
     <div style={{display:"flex", marginLeft:"200px"}}>
       <Button variant="light" onClick={handleCreatePlayerClick}>선수 추가</Button>
       <Button onClick={()=>navigate('/')}>뒤로 가기</Button>
@@ -192,7 +188,7 @@ const HandleEditClick = (playerId) => {
     {selectedPlayer && selectedPlayer.recordResponseDto.length === 0 && <div div class="content-title">There are no records.</div>}
     {selectedPlayer && selectedPlayer.recordResponseDto.length > 0 &&(
       <div>
-        <div class="content-title">{selectedPlayer.name} 선수의 경기 기록</div>
+        <div className="content-title">{selectedPlayer.name} 선수의 경기 기록</div>
         <Table striped bordered hover variant="dark">
           <thead>
             <tr>

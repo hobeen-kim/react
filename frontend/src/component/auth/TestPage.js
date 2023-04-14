@@ -30,7 +30,7 @@ const Boxs = styled(Box)`
   padding-bottom: 40px !important;
 `;
 
-const SignUp = () => {
+const TestPage = () => {
   
   const theme = createTheme();
   const authCtx = useContext(AuthContext);
@@ -43,6 +43,7 @@ const SignUp = () => {
   const [nickNameError, setNickNameError] = useState('');
   const navigate = useNavigate();
   const containerRef = useRef(null);
+  const [signUpDuplicate, setSignUpDuplicate] = useState(false);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -53,9 +54,7 @@ const SignUp = () => {
   const onhandlePost = async (data) => {
     const { memberId, email, name, password, nickName } = data;
 
-    authCtx.signup(memberId, email, password, name, nickName);
-    navigate('/login');
-
+    window.alert('onhandlePost 실행');
   };
 
   // useEffect (() => {
@@ -83,31 +82,37 @@ const SignUp = () => {
       nickName: data.get('nickName'),
     };
     const { memberId, email, name, password, rePassword, nickName } = joinData;
+
     // 아이디 유효성 체크
     const memberIdCheck = validation.memberIdValidator(memberId);
-    setMemberIdError(memberIdCheck);
+    if(memberIdCheck) setMemberIdError(memberIdCheck);
+    else setMemberIdError('');
 
     // 이메일 유효성 체크
     const emailCheck = validation.emailValidator(email);
-    setEmailError(emailCheck);
+    if (emailCheck) setEmailError(emailCheck);
+    else setEmailError('');
 
     // 비밀번호 유효성 체크
     const passwordCheck = validation.passwordValidator(password);
-    setPasswordState(passwordCheck);
+    if (passwordCheck) setPasswordState(passwordCheck);
+    else setPasswordState('');
 
     // 비밀번호 같은지 체크
     if (password !== rePassword) setPasswordError('비밀번호가 일치하지 않습니다.');
-    setPasswordError('');
+    else setPasswordError('');
 
     // 이름 유효성 검사
-    const nameCheck = validation.nameValidator(name, 1, 20);
-    setNameError(nameCheck);
-    
+    const nameCheck = validation.nameValidator(name);
+    if (nameCheck) setNameError(nameCheck);
+    else setNameError('');
 
     //닉네임 유효성 검사
     const nickNameCheck = validation.nicknameValidator(nickName);
-    setNickNameError(nickNameCheck);
-  
+    if (nickNameCheck) setNickNameError(nickNameCheck);
+    else setNickNameError('');
+
+
     if (
       !memberIdCheck && 
       !emailCheck && 
@@ -237,4 +242,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default TestPage;

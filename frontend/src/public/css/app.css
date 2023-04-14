@@ -53,3 +53,7 @@ body {
       left: 150px;
     }
   }
+
+  .error{
+    color : red;
+  }
