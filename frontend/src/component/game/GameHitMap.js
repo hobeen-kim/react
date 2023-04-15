@@ -87,7 +87,6 @@ const GameHitMap = () => {
     const [gameTime, setGameTime] = useState(0);
     const Anonymous = {"id": 0, "name": "무명", "position": "NON", "recordResponseDto": {"gamePosition":"NON"}};
     const BluePlayer = {"id": -1, "name": "상대", "position": "NON", "recordResponseDto": {"gamePosition":"NON"}};
-    const keyOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
     //최대, 최소시간 설정을 위한 minTime, maxTime
     const [minTime, setMinTime] = useState(0);
     const [maxTime, setMaxTime] = useState(120);
@@ -177,8 +176,10 @@ const GameHitMap = () => {
     const drawDotLineArrow = (newDot) => {
         newDot?.map((dot) => {
             dotDrawing(ctx,dot.x, dot.y, radius, dot.color, alpha, dot.playerName, dot.gamePosition, dot.playerId, dot.gameTime);
-            lineDrawing(ctx, dot.beforeX, dot.beforeY, dot.shootX, dot.shootY, dot.color, dot.validShoot, dot.gameTime);
-            arrowDrawing(ctx, dot.beforeX, dot.beforeY, dot.shootX, dot.shootY, dot.color, dot.gameTime);
+            if(dot.shoot){
+                lineDrawing(ctx, dot.x, dot.y, dot.shootX, dot.shootY, dot.color, dot.validShoot, dot.gameTime);
+                arrowDrawing(ctx, dot.x, dot.y, dot.shootX, dot.shootY, dot.color, dot.gameTime);
+            }
         });
     }
 
@@ -332,8 +333,8 @@ const GameHitMap = () => {
                 setDrawLineState(false);
 
                 let lastDot = dot[dot.length - 1];
-                lastDot.beforeX = beforeX;
-                lastDot.beforeY = beforeY;
+                lastDot.x = beforeX;
+                lastDot.y = beforeY;
                 lastDot.shootX = x;
                 lastDot.shootY = y;
                 lastDot.shoot= true;
@@ -612,13 +613,11 @@ const GameHitMap = () => {
         }
 
         const savedDot = () => {
-            let newDot = [];
-            
+    
             gameField.dotRecordResponseDto?.map((givenDot) => {
                 const givenColor = givenDot.playerId === -1 ? "blue" : "red";
-                newDot.push({"x": givenDot.x, "y": givenDot.y, "color": givenColor, "alpha": alpha, "playerId" : givenDot.playerId, "playerName":givenDot.playerName, "gamePosition" : selectedPlayer.recordResponseDto.gamePosition, "shoot": false, "validShoot": false, "shootX": null, "shootY" : null, "gameTime" : givenDot.gameTime})
                 setDot((prevDot) => [...prevDot, 
-                    {"x": givenDot.x, "y": givenDot.y, "color": givenColor, "alpha": alpha, "playerId" : givenDot.playerId, "playerName":givenDot.playerName, "gamePosition" : selectedPlayer.recordResponseDto.gamePosition, "shoot": false, "validShoot": false, "shootX": null, "shootY" : null, "gameTime" : givenDot.gameTime
+                    {"x": givenDot.x, "y": givenDot.y, "color": givenColor, "alpha": alpha, "playerId" : givenDot.playerId, "playerName":givenDot.playerName, "gamePosition" : givenDot.gamePosition, "shoot": givenDot.shoot, "validShoot": givenDot.validShoot, "shootX": givenDot.shootX, "shootY" : givenDot.shootY, "gameTime" : givenDot.gameTime
                 }]);             
                 })
         }

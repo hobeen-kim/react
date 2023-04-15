@@ -8,6 +8,7 @@ export const Validation = createContext({
     nameValidator: (name) => {},
     nicknameValidator: (nickname) => {},
     rangeValidator: (value, min, max) => {},
+    volumnValidator: (value, min, max) => {}
     
 });
 
@@ -48,6 +49,13 @@ export const ValidationProvider = ({ children }) => {
         else return '';
     };
 
+    const volumnValidator = (value, min, max) => {
+        const volumnRegex = new RegExp(`^.{${min},${max}}$`);
+        if (!volumnRegex.test(value)) return `글자 수 ${min}~${max} 사이의 값을 입력해주세요.`;
+        else return '';
+    };
+
+
 
     const contextValue = {
         memberIdValidator,
@@ -56,6 +64,7 @@ export const ValidationProvider = ({ children }) => {
         nameValidator,
         nicknameValidator,
         rangeValidator,
+        volumnValidator
 
     }
 

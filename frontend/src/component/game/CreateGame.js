@@ -81,15 +81,15 @@ const CreateGame = () => {
         const createdAtInput = createdAt;
 
         //gameName validation
-        const gameNameCheck = validation.nameValidator(gameNameInput, 1, 100);
+        const gameNameCheck = validation.volumnValidator(gameNameInput, 1, 100);
         setGameNameError(gameNameCheck);
 
         //opponent validation
-        const opponentCheck = validation.nameValidator(opponentInput, 0, 100);
+        const opponentCheck = validation.volumnValidator(opponentInput, 0, 100);
         setOpponentError(opponentCheck);
 
         //location validation
-        const locationCheck = validation.nameValidator(locationInput, 0, 100);
+        const locationCheck = validation.volumnValidator(locationInput, 0, 100);
         setLocationError(locationCheck);
 
         //GF validation

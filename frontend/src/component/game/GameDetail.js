@@ -113,16 +113,16 @@ useEffect(() => {
       const createdAtInput = createdAt;
 
       //gameName validation
-      const gameNameCheck = validation.nameValidator(gameNameInput, 1, 100);
+      const gameNameCheck = validation.volumnValidator(gameNameInput, 1, 100);
       setGameNameError(gameNameCheck);
       console.log(gameNameCheck)
 
       //opponent validation
-      const opponentCheck = validation.nameValidator(opponentInput, 0, 100);
+      const opponentCheck = validation.volumnValidator(opponentInput, 0, 100);
       setOpponentError(opponentCheck);
 
       //location validation
-      const locationCheck = validation.nameValidator(locationInput, 0, 100);
+      const locationCheck = validation.volumnValidator(locationInput, 0, 100);
       setLocationError(locationCheck);
 
       //GF validation
@@ -164,17 +164,25 @@ useEffect(() => {
 
   //경기에 플레이어 추가(경기에만 추가됨)
   const handleAddPlayer = async () => {
+    let state = true;
     setAddPlayerState(true);
     const gameId = selectedGame.id;
     const playerId = parseInt(AddplayerIdInputRef.current.value);
     const gamePosition = AddGamePositionInputRef.current.value;
     const mainSub = AddMainSubInputRef.current.value;
 
-    setIsLoading(true);
-    await gameCtx.addPlayer(gameId, playerId, gamePosition, mainSub);
-    setIsLoading(false);
-    setAddPlayerState(false);
-
+    selectedGame.gamePlayerResponseDto.filter(player => {
+      if(player.id == playerId) {
+        window.alert('이미 추가된 플레이어입니다.');
+        state = false;
+      }
+    })
+    if(state){
+      setIsLoading(true);
+      await gameCtx.addPlayer(gameId, playerId, gamePosition, mainSub);
+      setIsLoading(false);
+      setAddPlayerState(false);
+    }
   }
 
   //경기에 참여한 플레이어 삭제(경기에서만 삭제됨)

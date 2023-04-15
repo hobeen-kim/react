@@ -6,7 +6,7 @@ spring:
         password:
     jpa:
         hibernate:
-            ddl-auto: none;
+            ddl-auto: none
 
 jwt:
     secret-key: "fasdfasasdflknewqiofdsalkfnqwouie234231412fkdsjafbeuwqpfbdsadflfbasfklwuiqefblskf34214asdkljfbsaldrasdrkljfb"
