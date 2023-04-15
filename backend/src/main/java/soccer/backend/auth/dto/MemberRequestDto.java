@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import soccer.backend.domain.member.Authority;
@@ -15,6 +16,7 @@ import soccer.backend.domain.member.Member;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Slf4j
 public class MemberRequestDto {
 
     @Pattern(regexp = "^[a-z]+\\d*$", message = "4~20글자의 소문자, 숫자로 구성해주세요.")

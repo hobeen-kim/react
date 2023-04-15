@@ -3,7 +3,8 @@ import * as authAction from './auth-action';
 let logoutTimer;
 
 const AuthContext = React.createContext({
-  token: '',
+  accessToken: '',
+  refreshToken: '',
   userObj: {memberId: '', email: '', name: '', nickname: ''},
   isLoggedIn: false,
   isSuccess: false,
@@ -22,12 +23,8 @@ export const AuthContextProvider = (props) => {
 
   const tokenData = authAction.retrieveStoredToken();
 
-  let initialToken;
-  if (tokenData) {
-    initialToken = tokenData.token;
-  }
-
-  const [token, setToken] = useState(initialToken);
+  const [accessToken, setAccessToken] = useState(tokenData ? tokenData.accessToken : '');
+  const [refreshToken, setRefreshToken] = useState(tokenData ? tokenData.refreshToken : '');
   const [cssState, setCssState] = useState(0);
   const [userObj, setUserObj] = useState({
     memberId:'',
@@ -39,7 +36,7 @@ export const AuthContextProvider = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetSuccess, setIsGetSuccess ] = useState(false);
 
-  const userIsLoggedIn = !!token;
+  const userIsLoggedIn = !!accessToken;
 
   const signupHandler = (memberId, email, password, name, nickname) => {
     setIsSuccess(false);
@@ -61,10 +58,12 @@ export const AuthContextProvider = (props) => {
     data.then((result) => {
       if (result !== null) {
         const loginData = result.data;
-        setToken(loginData.accessToken);
+        setAccessToken(loginData.accessToken);
         logoutTimer = setTimeout(
           logoutHandler,
-          authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn)
+          authAction.loginTokenHandler(
+            loginData.accessToken, loginData.refreshToken, 
+            loginData.accessTokenExpiresIn, loginData.refreshTokenExpiresIn)
         );
         setIsSuccess(true);
         setCssState(1);
@@ -73,7 +72,8 @@ export const AuthContextProvider = (props) => {
   };
 
   const logoutHandler = useCallback(() => {
-    setToken('');
+    setAccessToken('');
+    setRefreshToken('');
     authAction.logoutActionHandler();
     if (logoutTimer) {
       clearTimeout(logoutTimer);
@@ -83,7 +83,7 @@ export const AuthContextProvider = (props) => {
 
   const getUserHandler = () => {
     setIsGetSuccess(false);
-    const data = authAction.getUserActionHandler(token);
+    const data = authAction.getUserActionHandler(accessToken);
     data.then((result) => {
       if (result !== null) {
         const userData = result.data;
@@ -96,7 +96,7 @@ export const AuthContextProvider = (props) => {
   const changeNicknameHandler = (memberId, nickname) => {
     setIsSuccess(false);
 
-    const data = authAction.changeNicknameActionHandler(memberId, nickname, token);
+    const data = authAction.changeNicknameActionHandler(memberId, nickname, accessToken);
     data.then((result) => {
       if (result !== null) {
         const userData = result.data;
@@ -108,7 +108,7 @@ export const AuthContextProvider = (props) => {
 
   const changePaswordHandler = (exPassword, newPassword) => {
     setIsSuccess(false);
-    const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
+    const data = authAction.changePasswordActionHandler(exPassword, newPassword, accessToken);
     data.then((result) => {
       if (result !== null) {
         setIsSuccess(true);
@@ -131,7 +131,8 @@ export const AuthContextProvider = (props) => {
 
 
   const contextValue ={
-    token,
+    accessToken,
+    refreshToken,
     userObj,
     isLoggedIn: userIsLoggedIn,
     isSuccess,

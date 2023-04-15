@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import soccer.backend.config.SecurityUtil;
 import soccer.backend.domain.info.GamePlayer;
 import soccer.backend.domain.info.Record;
 import soccer.backend.domain.member.Member;
@@ -124,7 +125,7 @@ public class PlayerService{
     //인증 정보로 회원 조회
     private Member getMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
+        return memberRepository.findByMemberId(authentication.getName()).orElseThrow();
     }
 
     //인증 정보로 회원의 player 여부 조회

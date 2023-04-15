@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { URI } from '../../utility/uri';
+import { TestURI } from '../../utility/uri';
 
-const uri = URI;
+const uri = TestURI;
 
 const fetchAuth = async (fetchData) => {
   const method = fetchData.method;
@@ -20,6 +20,37 @@ const fetchAuth = async (fetchData) => {
       return null;
     }
 
+    if(response.data.message==='만료된 토큰입니다.'){
+
+      const refreshTokenUrl = '/auth/refreshToken';
+      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshTokenHeader = {
+        headers: {
+          'X-REFRESH-TOKEN': 'Bearer ' + refreshToken
+        }
+      }
+      const refreshResponse = await axios.get(uri + refreshTokenUrl, refreshTokenHeader)
+      if(refreshResponse.data.message==='만료된 토큰입니다.'){
+        alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+        return null;
+      }else{
+        localStorage.setItem('accessToken', refreshResponse.data.accessToken);
+        localStorage.setItem('accessTokenExpirationTime', String(refreshResponse.data.accessTokenExpirationTime));
+        const accessToken = localStorage.getItem('accessToken');
+        const accessTokenHeader = {
+          headers: {
+            'Authorization': 'Bearer ' + accessToken
+          }
+        }
+        const response =
+          (method === 'get' && (await axios.get(uri + url, accessTokenHeader))) ||
+          (method === 'post' && (await axios.post(uri + url, data, accessTokenHeader))) ||
+          (method === 'put' && (await axios.put(uri + url, data, accessTokenHeader))) ||
+          (method === 'delete' && (await axios.delete(uri + url, accessTokenHeader)));
+        return response;
+      }
+    }
+
     if (!response) {
       alert('false!');
       return null;
@@ -27,8 +58,9 @@ const fetchAuth = async (fetchData) => {
 
     return response;
   } catch (err) {
-    window.alert(err.response.data);
 
+    window.alert(err.response.data);
+    
     if (axios.isAxiosError(err)) {
       const serverError = err;
       if (serverError && serverError.response) {

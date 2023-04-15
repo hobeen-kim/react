@@ -1,11 +1,13 @@
 package soccer.backend.auth.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -22,10 +24,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        log.info("jwtFilter 에서 받은 토큰 = {}", bearerToken);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7);
+        String bearerAccessToken = request.getHeader(AUTHORIZATION_HEADER);
+
+        if (StringUtils.hasText(bearerAccessToken) && bearerAccessToken.startsWith(BEARER_PREFIX)) {
+            return bearerAccessToken.substring(7);
         }
         return null;
     }
@@ -33,15 +35,25 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, ServletException, IOException {
 
-        log.info("JwtFilter.doFilterInternal()");
+        try{
+            String jwt = resolveToken(request);
 
-        String jwt = resolveToken(request);
+            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+                Authentication authentication = tokenProvider.getAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            Authentication authentication = tokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(request, response);
+        }catch (ExpiredJwtException e) {
+            // Handle the exception and send a response
+            response.setStatus(HttpStatus.OK.value());
+            response.setCharacterEncoding("UTF-8"); // Set the character encoding to UTF-8
+            response.setContentType("application/json");
+
+            // Create a custom response with the error message
+            String jsonResponse = String.format("{\"message\": \"%s\"}", e.getMessage());
+            response.getWriter().write(jsonResponse);
         }
 
-        filterChain.doFilter(request, response);
     }
 }

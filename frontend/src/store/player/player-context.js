@@ -21,7 +21,7 @@ export const PlayerContextProvider = ({ children }) => {
   const tokenData = authAction.retrieveStoredToken();
   let initialToken;
   if (tokenData) {
-    initialToken = tokenData.token;
+    initialToken = tokenData.accessToken;
   }
   const [token, setToken] = useState(initialToken);
   const [players, setPlayers] = useState([]);

@@ -1,9 +1,9 @@
 import {GET, POST} from "./fetch-action";
 
-const createTokenHeader = (token) => {
+const createTokenHeader = (accessToken) => {
     return {
       headers: {
-        'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + accessToken
       }
     }
   }
@@ -15,29 +15,34 @@ const remainingDuration = adjExpirationTime - currentTime;
 return remainingDuration;
 };
 
-export const loginTokenHandler = (token, expirationTime) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('expirationTime', String(expirationTime));
+export const loginTokenHandler = (accessToken, refreshToken, accessTokenExpirationTime, refreshTokenExpirationTime) => {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('accessTokenExpirationTime', String(accessTokenExpirationTime));
+    localStorage.setItem('refreshTokenExpirationTime', String(refreshTokenExpirationTime));
   
-    const remainingTime = calculateRemainingTime(expirationTime);
+    const remainingTime = calculateRemainingTime(refreshTokenExpirationTime);
     return remainingTime;
 }
 
 export const retrieveStoredToken = () => {
-    const storedToken = localStorage.getItem('token');
-    const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
+    const storedAccessToken = localStorage.getItem('accessToken');
+    const sotredRefreshToken = localStorage.getItem('refreshToken');
+    const storedAcessTokenExpriationDate = localStorage.getItem('accessTokenExpirationTime') || '0';
+    const storedRefreshExpirationDate = localStorage.getItem('refreshTokenExpirationTime') || '0';
   
-    const remainigTime = calculateRemainingTime(+ storedExpirationDate);
+    const remainingTime = calculateRemainingTime(+ storedRefreshExpirationDate);
   
-    if(remainigTime <= 1000) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('expirationTime');
+    if(remainingTime <= 1000) {
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('refreshTokenExpirationTime');
       return null
     }
 
     return {
-        token: storedToken,
-        duration: remainigTime
+        accessToken: storedAccessToken,
+        refreshToken: sotredRefreshToken,
+        duration: remainingTime
     }
 }
 
@@ -62,23 +67,23 @@ export const logoutActionHandler = () => {
     localStorage.removeItem('expirationTime');
   };
   
-  export const getUserActionHandler = (token) => {
+  export const getUserActionHandler = (accessToken) => {
     const URL = '/member/me';
-    const response = GET(URL, createTokenHeader(token));
+    const response = GET(URL, createTokenHeader(accessToken));
     return response;
   }
   
-  export const changeNicknameActionHandler = ( memberId, nickname, token) => {
+  export const changeNicknameActionHandler = ( memberId, nickname, tokeaccessTokenn) => {
     const URL = '/member/nickname';
     const changeNicknameObj = {memberId, nickname };
-    const response = POST(URL, changeNicknameObj, createTokenHeader(token));
+    const response = POST(URL, changeNicknameObj, createTokenHeader(accessToken));
   
     return response;
   }
   
-  export const changePasswordActionHandler = (exPassword, newPassword,token) => {
+  export const changePasswordActionHandler = (exPassword, newPassword,accessToken) => {
     const URL = '/member/password';
     const changePasswordObj = { exPassword, newPassword }
-    const response = POST(URL, changePasswordObj, createTokenHeader(token));
+    const response = POST(URL, changePasswordObj, createTokenHeader(accessToken));
     return response;
   }

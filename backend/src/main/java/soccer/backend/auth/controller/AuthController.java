@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import soccer.backend.auth.dto.MemberRequestDto;
 import soccer.backend.auth.dto.MemberResponseDto;
@@ -18,14 +17,8 @@ import soccer.backend.auth.service.AuthService;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        log.info("test");
-        return ResponseEntity.ok("test");
-    }
-
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody @Valid MemberRequestDto requestDto) {
+    public ResponseEntity<MemberResponseDto> signup(@RequestBody @Valid MemberRequestDto requestDto) {
 
         MemberResponseDto responseDto = authService.signup(requestDto);
         return ResponseEntity.ok(responseDto);
@@ -34,6 +27,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         TokenDto token = authService.login(requestDto);
+        return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/refreshToken")
+    public ResponseEntity<TokenDto> refreshToken(@RequestHeader("X-REFRESH-TOKEN") String refreshToken) {
+        TokenDto token = authService.refreshToken(refreshToken);
         return ResponseEntity.ok(token);
     }
 }
