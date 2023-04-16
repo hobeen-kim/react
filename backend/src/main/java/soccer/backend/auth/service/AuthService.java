@@ -60,17 +60,13 @@ public class AuthService {
             throw new UsernameNotFoundException(e.getMessage());
         }
 
-        log.info("tokenDto: {}", tokenDto);
-
         return tokenDto;
     }
 
     public TokenDto refreshToken(String refreshToken) {
 
-        String jwt = refreshToken.substring(7);
-
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            Authentication authentication = tokenProvider.getAuthenticationFromRefreshToken(jwt);
+        if (StringUtils.hasText(refreshToken) && tokenProvider.validateToken(refreshToken)) {
+            Authentication authentication = tokenProvider.getAuthenticationFromRefreshToken(refreshToken);
             TokenDto newToken = tokenProvider.createAccessToken(authentication);
             // Return the new access token in the response
             return newToken;

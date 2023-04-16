@@ -16,6 +16,9 @@ spring:
     hibernate:
       ddl-auto: none
 
+cookie:
+  secure: false
+
 ---
 
 spring:
@@ -26,6 +29,9 @@ spring:
     url: jdbc:mysql://database-1.cue4jecs154j.ap-northeast-2.rds.amazonaws.com:3306/socceranalystdb?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
     username: sksjsksh32
     password: 963741dsa!
+
+cookie:
+  secure: true
 ---
 # 공통 구성
 logging:

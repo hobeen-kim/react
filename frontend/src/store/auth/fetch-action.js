@@ -7,7 +7,8 @@ const fetchAuth = async (fetchData) => {
   const method = fetchData.method;
   const url = fetchData.url;
   const data = fetchData.data;
-  const header = fetchData.header;
+  let header = fetchData.header;
+  header.withCredentials = 'include';
 
   try {
     const response =
@@ -23,14 +24,11 @@ const fetchAuth = async (fetchData) => {
     if(response.data.message==='만료된 토큰입니다.'){
 
       const refreshTokenUrl = '/auth/refreshToken';
-      const refreshToken = localStorage.getItem('refreshToken');
       const refreshTokenHeader = {
-        headers: {
-          'X-REFRESH-TOKEN': 'Bearer ' + refreshToken
-        }
+        withCredentials: 'include'
       }
       const refreshResponse = await axios.get(uri + refreshTokenUrl, refreshTokenHeader)
-      if(refreshResponse.data.message==='만료된 토큰입니다.'){
+      if(refreshResponse.status===401){
         alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
         return null;
       }else{

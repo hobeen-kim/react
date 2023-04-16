@@ -2,9 +2,11 @@ import {GET, POST} from "./fetch-action";
 
 const createTokenHeader = (accessToken) => {
     return {
+      withCredentials: true,
       headers: {
         'Authorization': 'Bearer ' + accessToken
       }
+     
     }
   }
 
@@ -15,11 +17,9 @@ const remainingDuration = adjExpirationTime - currentTime;
 return remainingDuration;
 };
 
-export const loginTokenHandler = (accessToken, refreshToken, accessTokenExpirationTime, refreshTokenExpirationTime) => {
+export const loginTokenHandler = (accessToken, accessTokenExpirationTime, refreshTokenExpirationTime) => {
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('accessTokenExpirationTime', String(accessTokenExpirationTime));
-    localStorage.setItem('refreshTokenExpirationTime', String(refreshTokenExpirationTime));
   
     const remainingTime = calculateRemainingTime(refreshTokenExpirationTime);
     return remainingTime;
@@ -27,21 +27,16 @@ export const loginTokenHandler = (accessToken, refreshToken, accessTokenExpirati
 
 export const retrieveStoredToken = () => {
     const storedAccessToken = localStorage.getItem('accessToken');
-    const sotredRefreshToken = localStorage.getItem('refreshToken');
-    const storedAcessTokenExpriationDate = localStorage.getItem('accessTokenExpirationTime') || '0';
     const storedRefreshExpirationDate = localStorage.getItem('refreshTokenExpirationTime') || '0';
   
     const remainingTime = calculateRemainingTime(+ storedRefreshExpirationDate);
   
     if(remainingTime <= 1000) {
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('refreshTokenExpirationTime');
       return null
     }
 
     return {
         accessToken: storedAccessToken,
-        refreshToken: sotredRefreshToken,
         duration: remainingTime
     }
 }
@@ -57,6 +52,9 @@ export const signupActionHandler = (memberId, email, password, name, nickname) =
 export const loginActionHandler = (memberId, password) => {
     const URL = '/auth/login';
     const loginObject = { memberId, password };
+    const loginHeader = {
+      withCredentials: true,
+    }
     const response = POST(URL, loginObject, {});
   
     return response;
@@ -73,7 +71,7 @@ export const logoutActionHandler = () => {
     return response;
   }
   
-  export const changeNicknameActionHandler = ( memberId, nickname, tokeaccessTokenn) => {
+  export const changeNicknameActionHandler = ( memberId, nickname, accessToken) => {
     const URL = '/member/nickname';
     const changeNicknameObj = {memberId, nickname };
     const response = POST(URL, changeNicknameObj, createTokenHeader(accessToken));

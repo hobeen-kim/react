@@ -4,7 +4,6 @@ let logoutTimer;
 
 const AuthContext = React.createContext({
   accessToken: '',
-  refreshToken: '',
   userObj: {memberId: '', email: '', name: '', nickname: ''},
   isLoggedIn: false,
   isSuccess: false,
@@ -24,7 +23,6 @@ export const AuthContextProvider = (props) => {
   const tokenData = authAction.retrieveStoredToken();
 
   const [accessToken, setAccessToken] = useState(tokenData ? tokenData.accessToken : '');
-  const [refreshToken, setRefreshToken] = useState(tokenData ? tokenData.refreshToken : '');
   const [cssState, setCssState] = useState(0);
   const [userObj, setUserObj] = useState({
     memberId:'',
@@ -62,8 +60,7 @@ export const AuthContextProvider = (props) => {
         logoutTimer = setTimeout(
           logoutHandler,
           authAction.loginTokenHandler(
-            loginData.accessToken, loginData.refreshToken, 
-            loginData.accessTokenExpiresIn, loginData.refreshTokenExpiresIn)
+            loginData.accessToken, loginData.accessTokenExpiresIn, loginData.refreshTokenExpiresIn)
         );
         setIsSuccess(true);
         setCssState(1);
@@ -73,7 +70,6 @@ export const AuthContextProvider = (props) => {
 
   const logoutHandler = useCallback(() => {
     setAccessToken('');
-    setRefreshToken('');
     authAction.logoutActionHandler();
     if (logoutTimer) {
       clearTimeout(logoutTimer);
@@ -132,7 +128,6 @@ export const AuthContextProvider = (props) => {
 
   const contextValue ={
     accessToken,
-    refreshToken,
     userObj,
     isLoggedIn: userIsLoggedIn,
     isSuccess,
