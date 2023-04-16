@@ -34,12 +34,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(
             @RequestBody MemberRequestDto requestDto, HttpServletResponse response,
-            @Value("${cookie.secure}") boolean secure
+            @Value("${cookie.secure}") boolean secure,
+            @Value("${cookie.domain}") String domain
     ) {
         TokenDto token = authService.login(requestDto);
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", token.getRefreshToken())
-                .domain("socceranalyst.net")
+                .domain(domain)
                 .path("/")
                 .httpOnly(true)
                 .secure(secure)

@@ -7,8 +7,7 @@ const fetchAuth = async (fetchData) => {
   const method = fetchData.method;
   const url = fetchData.url;
   const data = fetchData.data;
-  let header = fetchData.header;
-  header.withCredentials = 'include';
+  const header = fetchData.header;
 
   try {
     const response =
@@ -16,10 +15,6 @@ const fetchAuth = async (fetchData) => {
       (method === 'post' && (await axios.post(uri + url, data, header))) ||
       (method === 'put' && (await axios.put(uri + url, data, header))) ||
       (method === 'delete' && (await axios.delete(uri + url, header)));
-    if (response && response.data.error) {
-      alert('Wrong ID or Password');
-      return null;
-    }
 
     if(response.data.message==='만료된 토큰입니다.'){
 

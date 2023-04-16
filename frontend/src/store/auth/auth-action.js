@@ -55,7 +55,7 @@ export const loginActionHandler = (memberId, password) => {
     const loginHeader = {
       withCredentials: true,
     }
-    const response = POST(URL, loginObject, {});
+    const response = POST(URL, loginObject, loginHeader);
   
     return response;
 };
