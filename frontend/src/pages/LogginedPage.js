@@ -8,6 +8,7 @@ import PlayerPage from "./PlayerPage";
 import GamePage from "./GamePage";
 import CommunityPage from "./CommunityPage";
 import ProfilePage from "./ProfilePage";
+import DevPage from "./DevPage";
 const LogginedPage = () => {
 
   return (
@@ -19,6 +20,7 @@ const LogginedPage = () => {
       <Route path="/games/*" element={<GamePage />} />
       <Route path="/community/*" element={<CommunityPage />} />
       <Route path="/profile/*" element={<ProfilePage />} />
+      <Route path="/dev/*" element={<DevPage />} />
     </Routes>
     </div>
 

@@ -1,15 +1,13 @@
 package soccer.backend.dto.game;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import soccer.backend.annotation.MinMax999;
 import soccer.backend.domain.game.Game;
-import soccer.backend.domain.member.Member;
-import soccer.backend.dto.player.PlayerRequestDto;
-
 import java.time.LocalDate;
 import java.util.List;
 

@@ -11,6 +11,7 @@ import soccer.backend.dto.MessageDto;
 import soccer.backend.dto.player.PlayerResponseDto;
 import soccer.backend.service.PlayerService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,7 @@ public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<PlayerResponseDto>> playerList() {
-
+    public ResponseEntity<List<PlayerResponseDto>> playerList() throws SQLException {
 
         return ResponseEntity.ok(playerService.playerList());
     }

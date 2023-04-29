@@ -67,11 +67,15 @@ public class AuthService {
 
         if (StringUtils.hasText(refreshToken) && tokenProvider.validateToken(refreshToken)) {
             Authentication authentication = tokenProvider.getAuthenticationFromRefreshToken(refreshToken);
-            TokenDto newToken = tokenProvider.createAccessToken(authentication);
+            TokenDto newToken = tokenProvider.generateTokenDto(authentication);
             // Return the new access token in the response
             return newToken;
         } else {
             throw new RuntimeException("로그인 정보를 확인해주세요.");
         }
+    }
+
+    public String getMemberId(String accessToken) {
+        return tokenProvider.getMemberIdFromExpiredToken(accessToken);
     }
 }

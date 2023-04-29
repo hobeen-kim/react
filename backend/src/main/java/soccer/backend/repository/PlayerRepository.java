@@ -8,7 +8,7 @@ import soccer.backend.domain.player.Player;
 import java.util.List;
 import java.util.Optional;
 
-public interface PlayerRepository extends JpaRepository<Player, Long>, PlayerRepositoryCustom {
+public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     List<Player> findByMember(Member member);
 

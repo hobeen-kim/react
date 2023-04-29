@@ -10,26 +10,7 @@ import Navbar from 'react-bootstrap/Navbar';
 const MainNavigation = () =>{
 
   const authCtx = useContext(AuthContext);
-  const [nickname, setNickname] = useState('');
   let isLogin = authCtx.isLoggedIn;
-  let isGet = authCtx.isGetSuccess;
-
-  const callback = (str) => {
-    setNickname(str);
-  }
-
-  useEffect(() => {
-    if (isLogin) {
-      authCtx.getUser();
-    } 
-  }, [isLogin]);
-
-  useEffect(() => {
-    if (isGet) {
-      callback(authCtx.userObj.nickname);
-    }
-  }, [isGet]);
-
 
   const toggleLogoutHandler = () => {
     authCtx.logout();
@@ -47,7 +28,7 @@ const MainNavigation = () =>{
             <Nav.Link href="/community" style={{marginRight:"50px"}}>커뮤니티</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="/profile">{nickname}</Nav.Link>
+            <Nav.Link href="/profile">내 정보</Nav.Link>
             <Nav.Link eventKey={2} onClick={toggleLogoutHandler}>
               logout
             </Nav.Link>

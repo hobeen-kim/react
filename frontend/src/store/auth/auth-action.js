@@ -6,7 +6,6 @@ const createTokenHeader = (accessToken) => {
       headers: {
         'Authorization': 'Bearer ' + accessToken
       }
-     
     }
   }
 
@@ -53,7 +52,7 @@ export const loginActionHandler = (memberId, password) => {
     const URL = '/auth/login';
     const loginObject = { memberId, password };
     const loginHeader = {
-      withCredentials: true,
+      withCredentials: true
     }
     const response = POST(URL, loginObject, loginHeader);
   
@@ -65,6 +64,7 @@ export const logoutActionHandler = () => {
     localStorage.removeItem('expirationTime');
   };
   
+  
   export const getUserActionHandler = (accessToken) => {
     const URL = '/member/me';
     const response = GET(URL, createTokenHeader(accessToken));
@@ -72,6 +72,7 @@ export const logoutActionHandler = () => {
   }
   
   export const changeNicknameActionHandler = ( memberId, nickname, accessToken) => {
+    
     const URL = '/member/nickname';
     const changeNicknameObj = {memberId, nickname };
     const response = POST(URL, changeNicknameObj, createTokenHeader(accessToken));

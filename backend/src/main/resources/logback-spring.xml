@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <property name="home" value="logs"/>
+
+    <!--<appender name="CUSTOM_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>utf8</charset>
+            <pattern>%X{request_id} ${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>-->
+
+    <appender name="DEFAULT_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${home}/access-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>15mb</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf8</charset>
+            <pattern>%X{request_id} ${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${home}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>15mb</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf8</charset>
+            <pattern>%X{request_id} ${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- profile 에 따라 slack 에 전송 -->
+    <springProfile name="local, production">
+        <property resource="slack-logback.yml" />
+        <appender name="SLACK_ERROR" class="com.github.maricn.logback.SlackAppender">
+            <webhookUri>${webhook-uri}</webhookUri>
+            <channel>#${channel}</channel>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%X{request_id} ${FILE_LOG_PATTERN}</pattern>
+            </layout>
+            <username>${username}</username>
+            <iconEmoji>:${emoji}:</iconEmoji>
+            <colorCoding>true</colorCoding>
+        </appender>
+        <appender name="ASYNC_ERROR_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="SLACK_ERROR"/>
+            <appender-ref ref="ERROR_FILE_APPENDER"/>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>ERROR</level>
+            </filter>
+        </appender>
+    </springProfile>
+
+    <root level="DEBUG">
+        <appender-ref ref="DEFAULT_FILE_APPENDER"/>
+        <!--<appender-ref ref="CUSTOM_CONSOLE"/>-->
+    </root>
+
+    <logger name="ERROR_FILE_LOGGER" level="ERROR" additivity="true">
+        <appender-ref ref="ERROR_FILE_APPENDER"/>
+        <appender-ref ref="SLACK_ERROR"/>
+    </logger>
+</configuration>

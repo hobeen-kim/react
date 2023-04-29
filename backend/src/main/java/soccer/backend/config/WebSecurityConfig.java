@@ -54,6 +54,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers( "/auth/**").permitAll()
+                .requestMatchers("/dev/**").hasRole("DEVELOPER")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().authenticated()
 

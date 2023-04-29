@@ -28,7 +28,8 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 2;
+    @Value("${accessToken.time}")
+    private long ACCESS_TOKEN_EXPIRE_TIME;
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;
     private final Key key;
     private final CustomUserDetailsService userDetailsService;
@@ -129,6 +130,19 @@ public class TokenProvider {
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
+
+    public String getMemberIdFromExpiredToken(String expiredToken) {
+
+        Claims claims = null;
+        try {
+            claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(expiredToken).getBody();
+        } catch (ExpiredJwtException e) {
+            claims = e.getClaims();
+            return claims.getSubject();
+        }
+        throw new RuntimeException("토큰이 만료되지 않았습니다.");
+    }
+
 
     public boolean validateToken(String token) {
         try {

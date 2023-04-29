@@ -1,0 +1,4 @@
+webhook-uri: https://hooks.slack.com/services/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
+channel: error_log
+username: socceranalyst_error_log
+emoji: eyes

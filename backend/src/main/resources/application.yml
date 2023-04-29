@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: application-secrets.yml
   profiles:
     active: local
 
@@ -20,6 +22,8 @@ cookie:
   secure: false
   domain: "localhost"
 
+accessToken:
+  time: 10000 # 1000 * 10
 ---
 
 spring:
@@ -34,11 +38,18 @@ spring:
 cookie:
   secure: true
   domain: "socceranalyst.net"
+
+accessToken:
+  time: 7200000 # 1000 * 60 * 60 * 2
 ---
 # 공통 구성
 logging:
   level:
+    root: INFO
+    soccer.backend: INFO
     org:
+      springframework:
+        security: INFO
       hibernate:
         SQL: DEBUG
         type:
@@ -46,5 +57,19 @@ logging:
             sql:
               BasicBinder: TRACE
 
-jwt:
-  secret-key: "fasdfasasdflknewqiofdsalkfnqwouie234231412fkdsjafbeuwqpfbdsadflfbasfklwuiqefblskf34214asdkljfbsaldrasdrkljfb"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: loggers
+      base-path: "/dev/actuator"
+
+spring:
+  data:
+    redis:
+      port: 6379
+      host: 127.0.0.1
+      password:
+
+
+

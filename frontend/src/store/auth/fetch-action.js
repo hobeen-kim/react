@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { TestURI } from '../../utility/uri';
+import { URI } from '../../utility/uri';
 
-const uri = TestURI;
+const uri = URI;
 
 const fetchAuth = async (fetchData) => {
   const method = fetchData.method;
@@ -20,16 +20,20 @@ const fetchAuth = async (fetchData) => {
 
       const refreshTokenUrl = '/auth/refreshToken';
       const refreshTokenHeader = {
-        withCredentials: 'include'
+        withCredentials: 'include',
+        headers: {
+          'X-Expired-Access-Token': header.headers.Authorization
+        }
       }
       const refreshResponse = await axios.get(uri + refreshTokenUrl, refreshTokenHeader)
+
       if(refreshResponse.status===401){
         alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
         return null;
       }else{
         localStorage.setItem('accessToken', refreshResponse.data.accessToken);
         localStorage.setItem('accessTokenExpirationTime', String(refreshResponse.data.accessTokenExpirationTime));
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = refreshResponse.data.accessToken;
         const accessTokenHeader = {
           headers: {
             'Authorization': 'Bearer ' + accessToken

@@ -4,8 +4,9 @@ let logoutTimer;
 
 const AuthContext = React.createContext({
   accessToken: '',
-  userObj: {memberId: '', email: '', name: '', nickname: ''},
+  userObj: {memberId: '', email: '', name: '', nickname: '', authority: ''},
   isLoggedIn: false,
+  isDev: false,
   isSuccess: false,
   isGetSuccess: false,
   cssState:'',
@@ -28,11 +29,13 @@ export const AuthContextProvider = (props) => {
     memberId:'',
     email: '',
     name:'',
-    nickname: ''
+    nickname: '',
+    authority: '',
   });
   
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetSuccess, setIsGetSuccess ] = useState(false);
+  const [isDev, setIsDev] = useState(false);
 
   const userIsLoggedIn = !!accessToken;
 
@@ -70,6 +73,7 @@ export const AuthContextProvider = (props) => {
 
   const logoutHandler = useCallback(() => {
     setAccessToken('');
+    setUserObj({memberId:'', email: '', name: '', nickname: '', authority: ''});
     authAction.logoutActionHandler();
     if (logoutTimer) {
       clearTimeout(logoutTimer);
@@ -83,6 +87,9 @@ export const AuthContextProvider = (props) => {
     data.then((result) => {
       if (result !== null) {
         const userData = result.data;
+        if(userData.authority === 'ROLE_DEVELOPER') {
+          setIsDev(true);
+        }
         setUserObj(userData);
         setIsGetSuccess(true);
       }
@@ -130,6 +137,7 @@ export const AuthContextProvider = (props) => {
     accessToken,
     userObj,
     isLoggedIn: userIsLoggedIn,
+    isDev,
     isSuccess,
     isGetSuccess,
     cssState,

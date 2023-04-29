@@ -7,7 +7,7 @@ import { Fragment } from "react";
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import AuthContext from "../store/auth/auth-context";
-import {useContext, useRef, useEffect } from "react";
+import {useContext } from "react";
 import "../public/css/homePage.css"
 
 const HomePage = () => {

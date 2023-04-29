@@ -1,6 +1,5 @@
 package soccer.backend.service;
 
-import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -38,6 +37,7 @@ public class GameService {
     private final RecordRepository recordRepository;
     private final GamePlayerRepository gamePlayerRepository;
     private final DotRecordRepository dotRecordRepository;
+
 
 
     //게임 목록 전체 조회
@@ -320,8 +320,7 @@ public class GameService {
         Member member = getMember();
         List<Game> games = gameRepository.findByMember(member);
         Game requestGame = gameRepository.findById(game.getId()).orElseThrow();
-        boolean isGame = games.contains(requestGame);
-        return isGame;
+        return games.contains(requestGame);
     }
 
     //인증 정보로 회원의 player 여부 조회
@@ -329,8 +328,7 @@ public class GameService {
         Member member = getMember();
         List<Player> players = playerRepository.findByMember(member);
         Player requestPlayer = playerRepository.findById(player.getId()).orElseThrow();
-        boolean isPlayer = players.contains(requestPlayer);
-        return isPlayer;
+        return players.contains(requestPlayer);
     }
 
 

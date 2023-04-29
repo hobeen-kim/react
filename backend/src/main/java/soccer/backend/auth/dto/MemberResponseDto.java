@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import soccer.backend.domain.member.Authority;
 import soccer.backend.domain.member.Member;
 
 @Getter
@@ -15,6 +16,7 @@ public class MemberResponseDto {
     private String memberId;
     private String name;
     private String nickname;
+    private Authority authority;
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
@@ -22,6 +24,7 @@ public class MemberResponseDto {
                 .memberId(member.getMemberId())
                 .name(member.getName())
                 .nickname(member.getNickname())
+                .authority(member.getAuthority())
                 .build();
     }
 }

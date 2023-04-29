@@ -39,7 +39,7 @@ useEffect(() => {
 }, [playerCtx.players, positions]);
 
 function sortPlayers(playerList, positions) {
-  const sortedPlayers = [...playerList].sort((a, b) => {
+  const sortedPlayers = [...playerList]?.sort((a, b) => {
     const positionA = positions.indexOf(a.position);
     const positionB = positions.indexOf(b.position);
     return positionA - positionB;
@@ -137,7 +137,7 @@ const HandleEditClick = (playerId) => {
           </tr>
         </thead>
         <tbody>
-          {sortedPlayers.map((player) => (
+          {sortedPlayers?.map((player) => (
             <tr key={player.id}>
               <td onClick={() => handlePlayerClick(player)} style={{ cursor: 'pointer' }}>
               {editPlayerId === player.id ? (
