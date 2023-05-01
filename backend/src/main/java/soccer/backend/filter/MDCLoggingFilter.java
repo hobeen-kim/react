@@ -19,6 +19,7 @@ public class MDCLoggingFilter implements Filter {
         final UUID uuid = UUID.randomUUID();
         MDC.put("request_id", uuid.toString());
         chain.doFilter(request, response);
+        System.out.println("test");
         MDC.clear();
     }
 }
