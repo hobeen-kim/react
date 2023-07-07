@@ -32,9 +32,7 @@ spring:
     activate:
       on-profile: production
   datasource:
-    url: jdbc:mysql://database-1.cue4jecs154j.ap-northeast-2.rds.amazonaws.com:3306/socceranalystdb?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
-    username: sksjsksh32
-    password: 963741dsa!
+
 
 cookie:
   secure: true
