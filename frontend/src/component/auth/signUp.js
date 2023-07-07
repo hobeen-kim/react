@@ -50,6 +50,12 @@ const SignUp = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (authCtx.isLoggedIn) {
+        navigate('/', { replace: true });
+    }
+    }, [authCtx.isLoggedIn, navigate]);
+
   const onhandlePost = async (data) => {
     const { memberId, email, name, password, nickName } = data;
 
@@ -121,6 +127,7 @@ const SignUp = () => {
   };
 
   return (
+    <div style={{height:"1000px"}}>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs" className='container-loginForm' ref={containerRef} >
         <CssBaseline />
@@ -234,6 +241,7 @@ const SignUp = () => {
         </Box>
       </Container>
     </ThemeProvider>
+    </div>
   );
 };
 

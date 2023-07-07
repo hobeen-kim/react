@@ -59,7 +59,7 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping("/refreshToken")
+    @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
@@ -67,6 +67,12 @@ public class AuthController {
 
         String accessToken = request.getHeader("X-Expired-Access-Token").substring(7);
         String memberId = authService.getMemberId(accessToken);
+
+        //access 토큰이 만료되지 않았을 때
+        if(memberId == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("please retry login");
+        }
+
         String refreshToken = null;
         ValueOperations<String, String> vop = redisTemplate.opsForValue();
 

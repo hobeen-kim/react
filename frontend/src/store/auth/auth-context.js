@@ -23,7 +23,7 @@ export const AuthContextProvider = (props) => {
 
   const tokenData = authAction.retrieveStoredToken();
 
-  const [accessToken, setAccessToken] = useState(tokenData ? tokenData.accessToken : '');
+  const [accessToken, setAccessToken] = useState(tokenData?.accessToken);
   const [cssState, setCssState] = useState(0);
   const [userObj, setUserObj] = useState({
     memberId:'',
@@ -36,8 +36,7 @@ export const AuthContextProvider = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetSuccess, setIsGetSuccess ] = useState(false);
   const [isDev, setIsDev] = useState(false);
-
-  const userIsLoggedIn = !!accessToken;
+  const [isLoggedIn, setIsLoggedIn] = useState(Boolean(tokenData?.accessToken));
 
   const signupHandler = (memberId, email, password, name, nickname) => {
     setIsSuccess(false);
@@ -60,6 +59,8 @@ export const AuthContextProvider = (props) => {
       if (result !== null) {
         const loginData = result.data;
         setAccessToken(loginData.accessToken);
+        console.log("login 시도");
+        setIsLoggedIn(true);
         logoutTimer = setTimeout(
           logoutHandler,
           authAction.loginTokenHandler(
@@ -72,7 +73,9 @@ export const AuthContextProvider = (props) => {
   };
 
   const logoutHandler = useCallback(() => {
+    console.log("logout 시도")
     setAccessToken('');
+    setIsLoggedIn(false);
     setUserObj({memberId:'', email: '', name: '', nickname: '', authority: ''});
     authAction.logoutActionHandler();
     if (logoutTimer) {
@@ -136,7 +139,7 @@ export const AuthContextProvider = (props) => {
   const contextValue ={
     accessToken,
     userObj,
-    isLoggedIn: userIsLoggedIn,
+    isLoggedIn,
     isDev,
     isSuccess,
     isGetSuccess,

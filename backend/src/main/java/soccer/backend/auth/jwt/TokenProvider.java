@@ -14,7 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import soccer.backend.auth.dto.TokenDto;
 import soccer.backend.auth.service.CustomUserDetailsService;
-import soccer.backend.repository.MemberRepository;
+import soccer.backend.global.exception.BusinessException;
+import soccer.backend.global.exception.ExceptionCode;
+import soccer.backend.auth.repository.MemberRepository;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -133,14 +135,14 @@ public class TokenProvider {
 
     public String getMemberIdFromExpiredToken(String expiredToken) {
 
-        Claims claims = null;
+        Claims claims;
         try {
             claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(expiredToken).getBody();
         } catch (ExpiredJwtException e) {
             claims = e.getClaims();
             return claims.getSubject();
         }
-        throw new RuntimeException("토큰이 만료되지 않았습니다.");
+        return null;
     }
 
 
@@ -152,7 +154,7 @@ public class TokenProvider {
             log.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
             log.info("만료된 토큰입니다.");
-            throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "만료된 토큰입니다.");
+            throw new BusinessException(ExceptionCode.TOKEN_EXPIRED);
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
@@ -165,7 +167,7 @@ public class TokenProvider {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         } catch (ExpiredJwtException e) {
-            throw new ExpiredJwtException(e.getHeader(), e.getClaims(), "만료된 토큰입니다.");
+            throw new BusinessException(ExceptionCode.TOKEN_EXPIRED);
         }
     }
 }

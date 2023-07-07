@@ -13,13 +13,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 Modal.setAppElement('#root'); // #root는 루트 엘리먼트의 id 입니다.
 
 root.render(
+  <BrowserRouter>
   <AuthContextProvider>
     <ValidationProvider>
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+      <App />
     </ValidationProvider>
-  </AuthContextProvider>,
+  </AuthContextProvider>
+</BrowserRouter>,
   document.getElementById('root')
 
 );

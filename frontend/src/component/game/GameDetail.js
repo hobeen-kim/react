@@ -115,7 +115,6 @@ useEffect(() => {
       //gameName validation
       const gameNameCheck = validation.volumnValidator(gameNameInput, 1, 100);
       setGameNameError(gameNameCheck);
-      console.log(gameNameCheck)
 
       //opponent validation
       const opponentCheck = validation.volumnValidator(opponentInput, 0, 100);

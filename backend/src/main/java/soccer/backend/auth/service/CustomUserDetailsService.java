@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import soccer.backend.domain.member.Member;
-import soccer.backend.repository.MemberRepository;
+import soccer.backend.auth.entity.Member;
+import soccer.backend.auth.repository.MemberRepository;
 
 import java.util.Collections;
 
@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getAuthority().toString());
 
         return new User(
-                String.valueOf(member.getMemberId()),
+                String.valueOf(member.getId()),
                 member.getPassword(),
                 Collections.singleton(grantedAuthority)
         );

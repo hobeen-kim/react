@@ -52,6 +52,8 @@ background-color: green;
   
 .displayed-dot-black {
     display: flex;
+    color: white;
+    background-color: rgba(180, 34, 34, 0.153);
     align-items: center;
     justify-content: center;
     font-family: 'Noto Sans KR', sans-serif;

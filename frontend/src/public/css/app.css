@@ -1,11 +1,12 @@
 body {
   display: flex;
   flex-direction: column;
-    background: url(../image/backGround.jpg) no-repeat center center fixed;
+    /* background: url(../image/backGround.jpg) no-repeat center center fixed; 
      -webkit-background-size: cover;
      -moz-background-size: cover;
      -o-background-size: cover;
-     background-size: cover;
+     background-size: cover;*/
+     background-color: rgba(0, 0, 0, 0.927);
 
   }
 

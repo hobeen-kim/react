@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import soccer.backend.domain.member.Authority;
-import soccer.backend.domain.member.Member;
+import soccer.backend.auth.entity.Authority;
+import soccer.backend.auth.entity.Member;
 
 @Getter
 @AllArgsConstructor

@@ -42,6 +42,12 @@ const AuthForm = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (authCtx.isLoggedIn) {
+        navigate('/', { replace: true });
+    }
+    }, [authCtx.isLoggedIn, navigate]);
+
   const submitHandler = async (event) => {
 
     event.preventDefault();

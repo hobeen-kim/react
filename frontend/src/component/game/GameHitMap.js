@@ -623,13 +623,11 @@ const GameHitMap = () => {
         }
 
 //------------------뒤로가기------------------
-    const handleBack = () => {
-        if(window.confirm('뒤로가시겠습니까?')) 
-        navigate(`/games/detail`, { state: { id: game.id } });
-    }
 
             
     return (
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+
     <div>
         <h2 class='title'>Hit Map</h2>
         <div className={classes['box-container']}>
@@ -646,31 +644,13 @@ const GameHitMap = () => {
                 onClick={()=> {handleBlueClick(); setShowBlue(true)}} checked={selectedColor == 'blue'? true:false} style={{width:"70px"}}> Blue
                 </ToggleButton>
             </ButtonGroup>
-            <div className={classnames(classes['displayed-dot-black'], handleNamePositionState === 3 && classes['displayed-dot-select'])} onClick={()=>handleNamePositionChange(3)}>Name{'\n'}Position</div>
-            <div className={classnames(classes['displayed-dot-black'], handleNamePositionState === 1 && classes['displayed-dot-select'])} onClick={()=>handleNamePositionChange(1)}>Name</div>
-            <div className={classnames(classes['displayed-dot-black'], handleNamePositionState === 2 && classes['displayed-dot-select'])} onClick={()=>handleNamePositionChange(2)}>Position</div>
-            <div className={classnames(classes['displayed-dot-black'], handleNamePositionState === 0 && classes['displayed-dot-select'])} onClick={()=>handleNamePositionChange(0)}/>
             <div className={classnames(classes['displayed-dot-hide-red'], !showRed && classes['displayed-dot-hided'])} onClick={()=>{handleRedHide(); handleBlueClick()}}/>
             <div className={classnames(classes['displayed-dot-hide-blue'], !showBlue && classes['displayed-dot-hided'])} onClick={()=>{handleBlueHide(); handleRedClick()}}/>
-            <Slider range min={0} max={120} marks={marks} aria-labelledby="continuous-slider" defaultValue={[0, 120]} pushable={true}
-            onChange={timeRangeHandler}  style={RangeStyle} handleRender={handleRender} 
-                trackStyle={{ backgroundColor: 'rgb(136, 99, 195)', height: 5 }}
-                handleStyle={{
-                    borderColor: 'rgb(136, 99, 195)',
-                    height: 20,
-                    width: 20,
-                    marginTop: -9,
-                  }}
-            />
-            <input class='hitmap-input' type='number' value={gameTime} onChange={(event)=>setGameTime(parseInt(event.target.value))} style={{width: "50px"}}/>
+            
         </div>
             <div className={classes['time-container']}>
             <div></div>
-            <span>
-                <Button onClick={handleBack}>뒤로가기</Button>
-                <Button onClick={download}>불러오기</Button>
-                <Button onClick={handleCreateGameField}>저장하기</Button>
-            </span>
+            
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
             <div className={classes['parent']}>
@@ -710,7 +690,7 @@ const GameHitMap = () => {
             </div>
         </div>
         </div>
-        
+        </div>
     );
 }
 

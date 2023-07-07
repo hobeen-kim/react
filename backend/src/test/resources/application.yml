@@ -6,7 +6,49 @@ spring:
         password:
     jpa:
         hibernate:
-            ddl-auto: none
+            ddl-auto: create-drop
+    data:
+        redis:
+            port: 6379
+            host: 127.0.0.1
+            password:
+    mvc:
+        pathmatch:
+            matching-strategy: ant_path_matcher
 
 jwt:
     secret-key: "fasdfasasdflknewqiofdsalkfnqwouie234231412fkdsjafbeuwqpfbdsadflfbasfklwuiqefblskf34214asdkljfbsaldrasdrkljfb"
+
+
+cookie:
+    secure: false
+    domain: "localhost"
+
+accessToken:
+    time: 10000 # 1000 * 10
+
+logging:
+    level:
+        root: INFO
+        soccer.backend: INFO
+        org:
+            springframework:
+                security: INFO
+            hibernate:
+                SQL: DEBUG
+                type:
+                    descriptor:
+                        sql:
+                            BasicBinder: TRACE
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: loggers
+            base-path: "/dev/actuator"
+
+
+
+
+

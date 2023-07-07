@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { URI } from '../../utility/uri';
+import { TestURI } from '../../utility/uri';
 
-const uri = URI;
+const uri = TestURI;
 
 const fetchAuth = async (fetchData) => {
   const method = fetchData.method;
@@ -14,11 +14,12 @@ const fetchAuth = async (fetchData) => {
       (method === 'get' && (await axios.get(uri + url, header))) ||
       (method === 'post' && (await axios.post(uri + url, data, header))) ||
       (method === 'put' && (await axios.put(uri + url, data, header))) ||
+      (method === 'patch' && (await axios.patch(uri + url, data, header))) ||
       (method === 'delete' && (await axios.delete(uri + url, header)));
 
     if(response.data.message==='만료된 토큰입니다.'){
 
-      const refreshTokenUrl = '/auth/refreshToken';
+      const refreshTokenUrl = '/auth/refresh';
       const refreshTokenHeader = {
         withCredentials: 'include',
         headers: {
@@ -43,6 +44,7 @@ const fetchAuth = async (fetchData) => {
           (method === 'get' && (await axios.get(uri + url, accessTokenHeader))) ||
           (method === 'post' && (await axios.post(uri + url, data, accessTokenHeader))) ||
           (method === 'put' && (await axios.put(uri + url, data, accessTokenHeader))) ||
+          (method === 'patch' && (await axios.patch(uri + url, data, accessTokenHeader))) ||
           (method === 'delete' && (await axios.delete(uri + url, accessTokenHeader)));
         return response;
       }
@@ -83,9 +85,16 @@ const PUT = async (url, data, header) => {
   return response;
 };
 
+const PATCH = async (url, data, header) => {
+  const response = fetchAuth({ method: 'patch', url, data, header });
+  return response;
+};
+
 const DELETE = async (url, header) => {
   const response = fetchAuth({ method: 'delete', url, header });
   return response;
 };
 
-export { GET, POST, PUT, DELETE };
+
+
+export { GET, POST, PUT, PATCH, DELETE };

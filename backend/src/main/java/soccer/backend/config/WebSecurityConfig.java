@@ -1,10 +1,9 @@
 package soccer.backend.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,7 +18,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import soccer.backend.auth.jwt.JwtAccessDeniedHandler;
 import soccer.backend.auth.jwt.JwtAuthenticationEntryPoint;
 import soccer.backend.auth.jwt.TokenProvider;
-import soccer.backend.auth.service.CustomUserDetailsService;
+
+import static org.springframework.http.HttpMethod.*;
 
 @RequiredArgsConstructor
 @Configuration
@@ -54,7 +54,10 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers( "/auth/**").permitAll()
-                .requestMatchers("/dev/**").hasRole("DEVELOPER")
+                .requestMatchers("/posts").permitAll()
+                .requestMatchers(GET,"/posts/\\d+").permitAll()
+                .requestMatchers(GET,"/posts/\\d+/comments").permitAll()
+                .requestMatchers(GET,"/posts/\\d+/comments/\\d+").permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().authenticated()
 

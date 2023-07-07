@@ -18,12 +18,13 @@ spring:
     hibernate:
       ddl-auto: none
 
+
 cookie:
   secure: false
   domain: "localhost"
 
 accessToken:
-  time: 10000 # 1000 * 10
+  time: 7200000 # 1000 * 10
 ---
 
 spring:
@@ -70,6 +71,10 @@ spring:
       port: 6379
       host: 127.0.0.1
       password:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 
 
 

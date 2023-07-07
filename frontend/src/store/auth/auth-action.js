@@ -18,17 +18,18 @@ return remainingDuration;
 
 export const loginTokenHandler = (accessToken, accessTokenExpirationTime, refreshTokenExpirationTime) => {
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('accessTokenExpirationTime', String(accessTokenExpirationTime));
+    localStorage.setItem('accessTokenExpirationTime', String(refreshTokenExpirationTime));
   
     const remainingTime = calculateRemainingTime(refreshTokenExpirationTime);
+
     return remainingTime;
 }
 
 export const retrieveStoredToken = () => {
     const storedAccessToken = localStorage.getItem('accessToken');
-    const storedRefreshExpirationDate = localStorage.getItem('refreshTokenExpirationTime') || '0';
+    const storedAccessExpirationDate = localStorage.getItem('accessTokenExpirationTime') || '0';
   
-    const remainingTime = calculateRemainingTime(+ storedRefreshExpirationDate);
+    const remainingTime = calculateRemainingTime(+ storedAccessExpirationDate);
   
     if(remainingTime <= 1000) {
       return null
@@ -60,20 +61,21 @@ export const loginActionHandler = (memberId, password) => {
 };
 
 export const logoutActionHandler = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationTime');
-  };
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('accessTokenExpirationTime');
+};
+
   
   
   export const getUserActionHandler = (accessToken) => {
-    const URL = '/member/me';
+    const URL = '/members';
     const response = GET(URL, createTokenHeader(accessToken));
     return response;
   }
   
   export const changeNicknameActionHandler = ( memberId, nickname, accessToken) => {
     
-    const URL = '/member/nickname';
+    const URL = '/members/nickname';
     const changeNicknameObj = {memberId, nickname };
     const response = POST(URL, changeNicknameObj, createTokenHeader(accessToken));
   
@@ -81,7 +83,7 @@ export const logoutActionHandler = () => {
   }
   
   export const changePasswordActionHandler = (exPassword, newPassword,accessToken) => {
-    const URL = '/member/password';
+    const URL = '/members/password';
     const changePasswordObj = { exPassword, newPassword }
     const response = POST(URL, changePasswordObj, createTokenHeader(accessToken));
     return response;

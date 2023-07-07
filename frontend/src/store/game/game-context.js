@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import * as authAction from '../auth/auth-action'; 
 import { getGamesActionHandler, createGameActionHandler, updateGameActionHandler, deleteGameActionHandler,
      getGameActionHandler, addPlayerActionHandler, updatePlayerActionHandler, deletePlayerActionHandler, 
-     createGameInitActionHandler, getGameFieldActionhandler, createGameFieldActionHandler } from './game-action';
+     getGameFieldActionhandler, createGameFieldActionHandler } from './game-action';
 
 export const GameContext = createContext({
     games: [],
@@ -60,16 +60,6 @@ export const GameContextProvider = ({ children }) => {
             setSelectedGame(null);
             const response = await getGamesActionHandler(token);
             setGames(response.data);
-        } catch (error) {
-            setError(error.message || 'Something went wrong!');
-        }
-    }
-
-    const createInitGame = async () => {
-        setError(null);
-        try {
-            const response = await createGameInitActionHandler(token);
-            setCreateInit(response.data);
         } catch (error) {
             setError(error.message || 'Something went wrong!');
         }
@@ -180,7 +170,6 @@ export const GameContextProvider = ({ children }) => {
         createInit,
         gameField,
         getGames,
-        createInitGame,
         createGame,
         updateGame,
         deleteGame,
