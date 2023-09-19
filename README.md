@@ -10,6 +10,8 @@
 
 # 2. 실행
 
+비용 문제로 서버는 닫았습니다.
+
 - front-end
   - `npm install`
   - `npm run start`
