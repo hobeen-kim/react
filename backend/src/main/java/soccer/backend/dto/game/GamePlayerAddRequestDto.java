@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import soccer.backend.annotation.MinMax120;
+import soccer.backend.global.annotation.MinMax120;
 import soccer.backend.domain.info.Main;
 import soccer.backend.domain.player.Position;
 

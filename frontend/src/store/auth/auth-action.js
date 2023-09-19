@@ -19,6 +19,7 @@ return remainingDuration;
 export const loginTokenHandler = (accessToken, accessTokenExpirationTime, refreshTokenExpirationTime) => {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('accessTokenExpirationTime', String(accessTokenExpirationTime));
+    localStorage.setItem('refreshTokenExpirationTimev', String(refreshTokenExpirationTime));
   
     const remainingTime = calculateRemainingTime(refreshTokenExpirationTime);
     return remainingTime;
@@ -27,11 +28,15 @@ export const loginTokenHandler = (accessToken, accessTokenExpirationTime, refres
 export const retrieveStoredToken = () => {
     const storedAccessToken = localStorage.getItem('accessToken');
     const storedRefreshExpirationDate = localStorage.getItem('refreshTokenExpirationTime') || '0';
+
+    console.log(storedRefreshExpirationDate)
   
     const remainingTime = calculateRemainingTime(+ storedRefreshExpirationDate);
+
+    console.log(remainingTime)
   
     if(remainingTime <= 1000) {
-      return null
+      // return null
     }
 
     return {

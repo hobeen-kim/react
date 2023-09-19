@@ -1,4 +1,4 @@
-package soccer.backend.filter;
+package soccer.backend.global.filter;
 
 import jakarta.servlet.*;
 import org.slf4j.MDC;
@@ -13,13 +13,11 @@ import java.util.UUID;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MDCLoggingFilter implements Filter {
 
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final UUID uuid = UUID.randomUUID();
         MDC.put("request_id", uuid.toString());
         chain.doFilter(request, response);
-        System.out.println("test");
         MDC.clear();
     }
 }

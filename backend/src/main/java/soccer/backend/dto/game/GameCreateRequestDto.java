@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import soccer.backend.annotation.MinMax999;
+import soccer.backend.global.annotation.MinMax999;
 import soccer.backend.domain.game.Game;
 import java.time.LocalDate;
 import java.util.List;

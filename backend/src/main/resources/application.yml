@@ -1,17 +1,9 @@
-spring:
-  config:
-    import: application-secrets.yml
-  profiles:
-    active: local
-
----
+jwt:
+  secret-key: "fasdfasasdflknewqiofdsalkfnqwouie234231412fkdsjafbeuwqpfbdsadflfbasfklwuiqefblskf34214asdkljfbsaldrasdrkljfb"
 
 spring:
-  config:
-    activate:
-      on-profile: local
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
+    url: jdbc:h2:mem:test
     username: sa
     password:
   jpa:
@@ -23,7 +15,7 @@ cookie:
   domain: "localhost"
 
 accessToken:
-  time: 10000 # 1000 * 10
+  time: 7200000 # 1000 * 10
 ---
 
 spring:
@@ -31,9 +23,9 @@ spring:
     activate:
       on-profile: production
   datasource:
-    url: jdbc:mysql://database-1.cue4jecs154j.ap-northeast-2.rds.amazonaws.com:3306/socceranalystdb?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
-    username: sksjsksh32
-    password: 963741dsa!
+    url:
+    username:
+    password:
 
 cookie:
   secure: true
