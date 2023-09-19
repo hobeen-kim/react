@@ -16,11 +16,11 @@
 
 |선수 관리 페이지|경기 관리 페이지|
 |------|---|
-|<img width="400px" alt="스크린샷 2023-09-18 오전 1 40 25" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/player">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 53 21" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/game">|
+|<img width="400px" alt="스크린샷 2023-09-18 오전 1 40 25" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/player.gif">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 53 21" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/game.gif">|
 
 |히트맵 작성1|히트맵 작성2|
 |------|---|
-|<img width="400px" alt="스크린샷 2023-09-14 오후 2 56 37" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/hitmap1">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 56 52" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/hitmap2">|
+|<img width="400px" alt="스크린샷 2023-09-14 오후 2 56 37" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/hitmap1.gif">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 56 52" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/hitmap2.gif">|
 
 # 3. 사용 기술
 
