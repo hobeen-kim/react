@@ -8,19 +8,27 @@
 
   \*Hitmap : 패스를 주거나 슛을 한 위치와 성공 여부를 기록한 맵
 
+# 2. 실행
+
+- front-end
+  - `npm install`
+  - `npm run start`
+- back-end
+  - redis 를 6379 포트에 실행 필요
+
 # 2. 디자인 및 기능
 
 |로그인 페이지|회원가입 페이지|
 |------|---|
-|<img width="400px" alt="스크린샷 2023-09-14 오후 2 50 35" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/login">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 59 44" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/signup">|
+|![image-20230813155332592](./images/login.png)|![image-20230813155332592](./images/signup.png)|
 
 |선수 관리 페이지|경기 관리 페이지|
 |------|---|
-|<img width="400px" alt="스크린샷 2023-09-18 오전 1 40 25" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/player.gif">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 53 21" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/game.gif">|
+|![image-20230813155332592](./images/player.gif)|![image-20230813155332592](./images/game.gif)|
 
 |히트맵 작성1|히트맵 작성2|
 |------|---|
-|<img width="400px" alt="스크린샷 2023-09-14 오후 2 56 37" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/hitmap1.gif">|<img width="400px" alt="스크린샷 2023-09-14 오후 2 56 52" src="https://github.com/hobeen-kim/socceranalyst/seb45_main_026/images/hitmap2.gif">|
+|![image-20230813155332592](./images/hitmap1.gif)|![image-20230813155332592](./images/hitmap2.gif)>|
 
 # 3. 사용 기술
 
@@ -31,6 +39,4 @@
 # 4. ERD
 
 ![image-20230813155332593](./images/erd.png)
-
-
 
