@@ -1,0 +1,17 @@
+.footer{
+    margin-bottom: 0 !important;
+    padding-left: 4rem !important;
+    height: 6rem;
+    font-size: 0.9em;
+    color: rgba(247, 241, 241, 0.466);
+}
+
+.footer-logo-img {
+    width: 30px; /* or whatever size you want */
+    height: auto; /* keep aspect ratio */
+}
+
+.footer-logo-text {
+    width: 70px; /* or whatever size you want */
+    height: auto; /* keep aspect ratio */
+}
